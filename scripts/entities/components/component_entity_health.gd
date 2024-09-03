@@ -4,7 +4,6 @@ extends ComponentEntityBase
 var max_health: int = health
 
 signal entity_health_depleted()
-signal health_changed(cur: int, max: int)
 
 func _component_ready() -> void:
 	_signal_status_bar_change()

@@ -16,6 +16,6 @@ func generate_random_map() -> TileContainer:
 	for i in range(map_size_x):
 		for j in range(map_size_y):
 			var tile = Tile.new()
-			tile.init(Vector2(i - map_size_x/2, j - map_size_y/2), DEFAULT_TILE_INDEX)
+			tile.init(Vector2(i, j), DEFAULT_TILE_INDEX)
 			output.add(tile)
 	return output

@@ -14,18 +14,20 @@ func clear_map() -> void:
 	_clear_highlights()
 
 func _clear_highlights() -> void:
-	 # make more modular
-	$hextile_tilemap_effects.clear()
-	$hextile_tilemap_movable_tiles.clear()
-	$hextile_tilemap_movable_tiles_enemy.clear()
-	$hextile_tilemap_path_effects.clear_points()
+	for child in get_children():
+		if child is TileMapLayer:
+			child.clear()
+		elif child is Line2D:
+			child.clear_points()
 
 func _highlight_moveable_tile(tile: Tile) -> void:
 	if (not tile.is_occupied()) or tile.get_occupying_unit().is_controllable():
 		$hextile_tilemap_movable_tiles.set_cell(tile.tilemap_coordinates, 0, Vector2(0, 3))
 	else:
 		$hextile_tilemap_movable_tiles_enemy.set_cell(tile.tilemap_coordinates, 0, Vector2(0, 3))
-		
+
+func _highlight_tile_dimmed(tile: Tile) -> void:
+	$hextile_tilemap_effects_dimmed.set_cell(tile.tilemap_coordinates, 0, Vector2(0, 3))
 	
 func _highlight_tile(tile: Tile) -> void:
 	$hextile_tilemap_effects.set_cell(tile.tilemap_coordinates, 0, Vector2(0, 3))
@@ -62,8 +64,7 @@ func _populate_new_map() -> void:
 func get_current_map() -> TileContainer:
 	var output = TileContainer.new()
 	for cell in get_used_cells():
-		var source = get_cell_source_id(cell)
-		if source == -1:
+		if get_cell_source_id(cell) == -1:
 			continue
 		var atlas_coords = get_cell_atlas_coords(cell)
 		var tile = Tile.new()

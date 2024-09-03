@@ -3,8 +3,11 @@ extends ProcessState
 func enter(_data: Dictionary):
 	print("entering unit select")
 	for child in get_tree().get_nodes_in_group("player_units"):
-		#if child.has_movement():
-		get_tree().call_group("hextile_map", "_highlight_tile", child.current_tile)
+		if child.has_movement():
+			get_tree().call_group("hextile_map", "_highlight_tile", child.current_tile)
+		else:
+			get_tree().call_group("hextile_map", "_highlight_tile_dimmed", child.current_tile)
+			
 
 func clicked_tile(tile: Tile) -> void:
 	if not tile.is_occupied():

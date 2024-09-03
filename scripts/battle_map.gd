@@ -10,9 +10,10 @@ const _initial_units: Array = [
 ]
 
 func _ready() -> void:
-	#tiles = $hextile_tilemap_base/hextile_tilemap_generator.generate_random_map()
-	tiles = $hextile_tilemap_base.get_current_map()
+	tiles = $hextile_tilemap_base/hextile_tilemap_generator.generate_random_map()
+	#tiles = $hextile_tilemap_base.get_current_map()
 	$hextile_tilemap_base.set_map(tiles)
+	$world_decor.set_map(tiles)
 	
 	for unit in _initial_units:
 		var tile = unit[2]

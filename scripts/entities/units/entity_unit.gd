@@ -54,7 +54,6 @@ var current_tile: Tile
 func set_starting_tile(tile: Tile) -> bool:
 	_set_current_tile(tile)
 	global_position = tile.global_position
-	#print(global_position)
 	return true
 
 func get_remaining_movement() -> float:

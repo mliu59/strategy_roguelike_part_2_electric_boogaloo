@@ -10,7 +10,10 @@ func enter(_data: Dictionary):
 	print("entering unit move")
 	unit = _data["selected_unit"]
 	unit.show_current_paths()
-	get_tree().call_group("hextile_map", "_highlight_tile", unit.current_tile)
+	if unit.has_movement():
+		get_tree().call_group("hextile_map", "_highlight_tile", unit.current_tile)
+	else:
+		get_tree().call_group("hextile_map", "_highlight_tile_dimmed", unit.current_tile)
 	
 func clicked_tile(tile: Tile):
 	if tile.is_occupied() and tile.get_occupying_unit().is_controllable():

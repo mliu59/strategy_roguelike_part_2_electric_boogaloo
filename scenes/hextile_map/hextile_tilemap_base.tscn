@@ -11,6 +11,7 @@ rendering_quadrant_size = 1
 script = ExtResource("2_sityj")
 
 [node name="hextile_tilemap_generator" type="Node2D" parent="."]
+position = Vector2(0, -2)
 script = ExtResource("3_bfsdo")
 map_size_x = 7
 map_size_y = 7
@@ -25,6 +26,11 @@ tile_set = ExtResource("1_ppcla")
 
 [node name="hextile_tilemap_effects" type="TileMapLayer" parent="."]
 modulate = Color(0.00994824, 0.238797, 1, 0.588235)
+tile_set = ExtResource("1_ppcla")
+
+[node name="hextile_tilemap_effects_dimmed" type="TileMapLayer" parent="."]
+modulate = Color(0.314316, 0.314316, 0.314316, 0.784314)
+tile_map_data = PackedByteArray("AAACAAIAAAAAAAMAAAACAAEAAAAAAAMAAAABAAIAAAAAAAMAAAABAAEAAAAAAAMAAAA=")
 tile_set = ExtResource("1_ppcla")
 
 [node name="hextile_tilemap_path_effects" type="Line2D" parent="."]

@@ -1,4 +1,4 @@
 extends ComponentEntityBase
 
-func update_status_bar(name: String, val: float, max: float):
-	get_node(name).set_ratio(val / max)
+func update_status_bar(_name: String, _val: float, _max: float):
+	get_node(_name).set_ratio(_val / _max)

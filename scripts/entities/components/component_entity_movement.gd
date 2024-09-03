@@ -39,6 +39,8 @@ func get_current_paths() -> void:
 func show_current_paths() -> void:
 	for uid in viable_paths:
 		var tile: Tile = viable_paths[uid].end_tile
+		if tile == get_parent().current_tile:
+			continue
 		highlight_movable_cell.emit(tile)
 
 func _physics_process(delta: float) -> void:
