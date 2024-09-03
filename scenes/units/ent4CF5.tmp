@@ -1,0 +1,64 @@
+[gd_scene load_steps=13 format=3 uid="uid://c1v2fp6vhvm61"]
+
+[ext_resource type="Script" path="res://scripts/entities/units/entity_unit_commander.gd" id="1_1tg1e"]
+[ext_resource type="Texture2D" uid="uid://bjt0k044b2tli" path="res://assets/entities/units/knight/knight_1.png" id="2_7vnwk"]
+[ext_resource type="Script" path="res://scripts/entities/components/component_signal_processor.gd" id="2_t84xm"]
+[ext_resource type="Script" path="res://scripts/entities/rendering/unit_sprite.gd" id="3_ow7tr"]
+[ext_resource type="Script" path="res://scripts/entities/components/component_entity_health.gd" id="4_b7fa1"]
+[ext_resource type="Script" path="res://scripts/entities/components/component_entity_status_effects.gd" id="5_8i1x2"]
+[ext_resource type="Script" path="res://scripts/entities/components/component_entity_movement.gd" id="6_p7taw"]
+[ext_resource type="Script" path="res://scripts/entities/components/component_entity_interact.gd" id="8_4kspy"]
+[ext_resource type="Script" path="res://scripts/entities/components/status_effects/status_effect_bleeding.gd" id="8_4t77l"]
+[ext_resource type="Script" path="res://scripts/entities/components/entity_interaction_container.gd" id="9_kr24t"]
+[ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_light_attack.gd" id="10_tlcxi"]
+[ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_heavy_attack.gd" id="12_qt5wd"]
+
+[node name="entity_unit_commander" type="Node2D"]
+script = ExtResource("1_1tg1e")
+
+[node name="component_signal_processor" type="Node" parent="."]
+script = ExtResource("2_t84xm")
+
+[node name="unit_sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_7vnwk")
+offset = Vector2(0, -13)
+script = ExtResource("3_ow7tr")
+shadow_angle = 30.0
+
+[node name="shadow_sprite" type="Sprite2D" parent="unit_sprite"]
+modulate = Color(0, 0, 0, 0.392157)
+show_behind_parent = true
+position = Vector2(0, 4)
+scale = Vector2(0.75, 0.1)
+texture = ExtResource("2_7vnwk")
+offset = Vector2(0, -13)
+
+[node name="component_entity_health" type="Node2D" parent="."]
+script = ExtResource("4_b7fa1")
+
+[node name="component_entity_status_effects" type="Node2D" parent="."]
+script = ExtResource("5_8i1x2")
+
+[node name="status_effect_bleeding" type="Node" parent="component_entity_status_effects"]
+script = ExtResource("8_4t77l")
+
+[node name="component_entity_movement" type="Node2D" parent="."]
+script = ExtResource("6_p7taw")
+max_move_acceleration = 0.0
+
+[node name="component_entity_interact" type="Node2D" parent="."]
+script = ExtResource("8_4kspy")
+
+[node name="entity_interaction_container" type="Node" parent="component_entity_interact"]
+script = ExtResource("9_kr24t")
+
+[node name="attack_light_attack" type="Node" parent="component_entity_interact/entity_interaction_container"]
+script = ExtResource("10_tlcxi")
+
+[node name="attack_heavy_attack" type="Node" parent="component_entity_interact/entity_interaction_container"]
+script = ExtResource("12_qt5wd")
+
+[connection signal="apply_damage" from="." to="component_entity_health" method="_on_damage"]
+[connection signal="entity_health_depleted" from="component_entity_health" to="." method="_on_health_depleted"]
+[connection signal="entered_tile" from="component_entity_movement" to="." method="_set_current_tile"]
+[connection signal="flip_sprite" from="component_entity_movement" to="unit_sprite" method="_on_component_entity_movement_flip_sprite"]

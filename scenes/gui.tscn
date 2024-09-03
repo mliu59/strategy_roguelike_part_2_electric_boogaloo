@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsgesw60jwyg1"]
+
+[ext_resource type="Script" path="res://scripts/gui/unit_hover_info_box.gd" id="1_25jvk"]
+[ext_resource type="Script" path="res://scripts/gui/end_turn_button.gd" id="1_hhkui"]
+
+[node name="gui" type="CanvasLayer"]
+layer = 7
+follow_viewport_enabled = true
+
+[node name="end_turn_button" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 607.0
+offset_right = 97.0
+offset_bottom = 638.0
+text = "End turn"
+script = ExtResource("1_hhkui")
+
+[node name="placeholder_gui" type="VBoxContainer" parent="."]
+offset_left = 25.0
+offset_top = 21.0
+offset_right = 181.0
+offset_bottom = 423.0
+
+[node name="unit_hover_info_box" type="ColorRect" parent="placeholder_gui" groups=["singleton_hover_info_box"]]
+z_index = 5
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.41422, 0.69603, 0.357108, 1)
+script = ExtResource("1_25jvk")
+
+[node name="text_label" type="Label" parent="placeholder_gui/unit_hover_info_box"]
+custom_minimum_size = Vector2(50, 20)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 10
+text = "hahahha
+hahhahaha
+hahhaahhaha"
+autowrap_mode = 2
+text_overrun_behavior = 2

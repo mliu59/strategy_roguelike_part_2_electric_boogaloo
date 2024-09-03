@@ -1,0 +1,58 @@
+[gd_scene load_steps=13 format=4 uid="uid://difp34axv1cix"]
+
+[ext_resource type="Script" path="res://scripts/battle_map.gd" id="1_6uc18"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_ats3h"]
+[ext_resource type="PackedScene" uid="uid://cb5vkdeg84bs0" path="res://scenes/hextile_map/hextile_tilemap_base.tscn" id="3_e4rra"]
+[ext_resource type="Script" path="res://scripts/entity_manager/entity_manager.gd" id="4_ekyl0"]
+[ext_resource type="PackedScene" uid="uid://c1v2fp6vhvm61" path="res://scenes/units/entity_unit_commander.tscn" id="5_0wu57"]
+[ext_resource type="Script" path="res://scripts/entity_manager/process_state_machine.gd" id="5_fku2a"]
+[ext_resource type="Script" path="res://scripts/entity_manager/process_states/state_select_unit.gd" id="6_xkp5g"]
+[ext_resource type="Script" path="res://scripts/entity_manager/process_states/state_move_unit.gd" id="7_gkraw"]
+[ext_resource type="Script" path="res://scripts/entity_manager/process_states/state_end_turn.gd" id="8_tfeeo"]
+[ext_resource type="Script" path="res://scripts/entity_manager/process_states/state_enemy_turn.gd" id="9_e00ri"]
+[ext_resource type="Script" path="res://scripts/gui/2d_scroll_camera.gd" id="11_xpr4s"]
+[ext_resource type="PackedScene" uid="uid://bsgesw60jwyg1" path="res://scenes/gui.tscn" id="12_wgvui"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_ats3h")
+
+[node name="battle_map" type="Node2D" parent="."]
+script = ExtResource("1_6uc18")
+
+[node name="hextile_tilemap_base" parent="battle_map" instance=ExtResource("3_e4rra")]
+position = Vector2(0, 1)
+scale = Vector2(3, 3)
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAAAAAEAAAABAAAAAAABAAEAAAABAAAAAAABAAIAAAADAAAAAAACAAIAAAABAAAAAAACAAEAAAABAAAAAAADAAEAAAABAAAAAAADAAIAAAABAAAAAAACAAMAAAABAAAAAAADAAMAAAABAAAAAAAEAAMAAAABAAAAAAAEAAIAAAABAAAAAAAAAAIAAAACAAAAAAAAAAMAAAABAAAAAAABAAMAAAABAAAAAAAFAAIAAAABAAAAAAAGAAIAAAABAAAAAAAGAAEAAAABAAAAAAAFAAEAAAABAAAAAAADAAAAAAABAAAAAAACAAAAAAABAAAAAAAEAAEAAAABAAAAAAAHAAIAAAADAAAAAAAHAAMAAAADAAAAAAAGAAQAAAACAAAAAAAFAAMAAAADAAAAAAAEAAQAAAABAAAAAAACAAQAAAACAAAAAAADAAUAAAACAAAAAAAFAAQAAAACAAAAAAAGAAMAAAACAAAAAAAEAAAAAAACAAAAAAAFAAAAAAACAAAAAAAGAAAAAAACAAAAAAAHAAAAAAACAAAAAAADAAQAAAABAAAAAAAHAAQAAAABAAAAAAAAAAQAAAACAAAAAAABAAQAAAABAAAAAAABAAUAAAABAAAAAAABAAYAAAADAAAAAAAAAAYAAAABAAAAAAAAAAcAAAABAAAAAAAAAAUAAAABAAAAAAABAAgAAAABAAAAAAACAAcAAAABAAAAAAACAAYAAAABAAAAAAACAAUAAAADAAAAAAD//wYAAAABAAAAAAD//wcAAAABAAAAAAADAAcAAAABAAAAAAAEAAYAAAADAAAAAAAFAAYAAAABAAAAAAAGAAUAAAABAAAAAAAFAAUAAAABAAAAAAAEAAUAAAABAAAAAAADAAYAAAABAAAAAAAFAAcAAAABAAAAAAAGAAYAAAABAAAAAAAHAAYAAAABAAAAAAAEAAcAAAACAAAAAAADAAgAAAABAAAAAAAHAAcAAAABAAAAAAAIAAYAAAABAAAAAAAJAAYAAAACAAAAAAAIAAUAAAADAAAAAAAFAAgAAAABAAAAAAAGAAcAAAABAAAAAAAKAAUAAAABAAAAAAAKAAYAAAADAAAAAAAJAAcAAAABAAAAAAAIAAcAAAABAAAAAAAIAAgAAAABAAAAAAAJAAkAAAABAAAAAAAKAAgAAAABAAAAAAALAAgAAAABAAAAAAAMAAgAAAABAAAAAAAMAAcAAAABAAAAAAAMAAYAAAABAAAAAAALAAYAAAABAAAAAAAMAAUAAAABAAAAAAAMAAQAAAABAAAAAAAMAAMAAAABAAAAAAALAAMAAAABAAAAAAAMAAIAAAABAAAAAAALAAIAAAABAAAAAAAMAAEAAAABAAAAAAALAAEAAAABAAAAAAALAAAAAAABAAAAAAAKAP//AAABAAAAAAAKAAAAAAABAAAAAAAJAAAAAAABAAAAAAAIAP//AAABAAAAAAAIAAAAAAABAAAAAAAIAAEAAAABAAAAAAAIAAIAAAABAAAAAAAIAAMAAAABAAAAAAAIAAQAAAABAAAAAAAJAAQAAAADAAAAAAAKAAQAAAADAAAAAAAKAAMAAAABAAAAAAAKAAIAAAACAAAAAAAJAAIAAAABAAAAAAAJAAEAAAADAAAAAAAKAAEAAAADAAAAAAAJAAUAAAADAAAAAAALAAUAAAABAAAAAAALAAQAAAABAAAAAAAJAAMAAAABAAAAAAAHAAUAAAABAAAAAAAHAAEAAAABAAAAAAABAAcAAAABAAAAAAAHAAgAAAABAAAAAAAJAAgAAAABAAAAAAAKAAcAAAADAAAAAAALAAcAAAABAAAAAAA=")
+
+[node name="entity_manager" type="Node2D" parent="battle_map"]
+script = ExtResource("4_ekyl0")
+
+[node name="entity_unit_commander" parent="battle_map/entity_manager" instance=ExtResource("5_0wu57")]
+position = Vector2(461, 235)
+
+[node name="process_state_machine" type="Node" parent="battle_map" node_paths=PackedStringArray("initial_state") groups=["global_turn_based_state_machine"]]
+script = ExtResource("5_fku2a")
+initial_state = NodePath("state_select_unit")
+
+[node name="state_select_unit" type="Node" parent="battle_map/process_state_machine"]
+script = ExtResource("6_xkp5g")
+
+[node name="state_move_unit" type="Node" parent="battle_map/process_state_machine"]
+script = ExtResource("7_gkraw")
+
+[node name="state_enemy_turn" type="Node" parent="battle_map/process_state_machine"]
+script = ExtResource("9_e00ri")
+
+[node name="state_end_turn" type="Node" parent="battle_map/process_state_machine"]
+script = ExtResource("8_tfeeo")
+
+[node name="gui" parent="." instance=ExtResource("12_wgvui")]
+layer = 1
+follow_viewport_enabled = false
+
+[node name="2d_scroll_camera" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("11_xpr4s")
+
+[connection signal="clicked_non_tile" from="battle_map/hextile_tilemap_base" to="battle_map/process_state_machine" method="_on_clicked_non_tile"]
+[connection signal="clicked_tile" from="battle_map/hextile_tilemap_base" to="battle_map/process_state_machine" method="_on_clicked_tile"]
