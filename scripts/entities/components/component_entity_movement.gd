@@ -7,6 +7,8 @@ var moving: bool = false
 var current_tile: Tile
 var flip_dir_h: bool = false
 
+var _attacked: bool = false
+
 var action_queue: Array = []
 
 @export var max_move_velocity: float = 200
@@ -29,6 +31,10 @@ func _component_ready() -> void:
 
 func _signal_status_bar_change() -> void:
 	_c_map['status_bars'].update_status_bar("movement_bar", remaining_movement_points, max_movement_points)
+
+func zero_movement() -> void:
+	remaining_movement_points = 0
+	_signal_status_bar_change()
 
 func reset_movement() -> void:
 	remaining_movement_points = max_movement_points
@@ -65,6 +71,8 @@ func _physics_process(delta: float) -> void:
 		if action_queue.is_empty():
 			_arrived_at_target()
 		elif action_queue[0]['action'] == 'interact':
+			_attacked = true
+			zero_movement()
 			get_parent().apply_unit_interaction(action_queue[0]['unit'])
 			var dict = action_queue.pop_front()
 			if action_queue.is_empty():
@@ -72,12 +80,9 @@ func _physics_process(delta: float) -> void:
 					action_queue.append({'action': 'move', 'tile': dict['tile']}) 
 				else:
 					_arrived_at_target()
-			# get_parent().current_tile.clear_unit()
-			# orig_dict['tile'].occupy_tile(get_parent())
 			
 func _arrived_at_target() -> void:
 	clear_highlights.emit()
-	# get_current_paths()
 	action_to_tile_complete.emit()
 
 func set_entity_acceleration(a) -> void:
@@ -85,42 +90,30 @@ func set_entity_acceleration(a) -> void:
 func set_entity_max_velocity(v) -> void:
 	max_move_velocity = v
 
+func has_attacked() -> bool:
+	return _attacked
+
 func action_to_tile(tile: Tile) -> void:
-	if moving:
-		print("moving")
-		return
-	#clear_highlights.emit()
+	if moving: return
 	get_current_paths()
-	if not tile.is_traversable():
-		return
-	if not tile.get_uid() in viable_paths:
-		return
-	
-	#highlight_cell.emit(get_parent().current_tile)
-	#highlight_cell.emit(tile)
-	var path: TilemapPath = viable_paths[tile.get_uid()]
-	#highlight_path.emit(path)
-	
-	if tile.is_occupied():
-		if len(path.path) - 1 > 0:
-			var prev_tile = path.path[-2]
-			move_to_tile(prev_tile)
-		action_queue.append({
-			'action': 'interact',
-			'tile': tile,
-			'unit': tile.get_occupying_unit()
-		})
-	else:
-		move_to_tile(tile)
-	
+	if not tile.is_traversable(): 			return
+	if not tile.get_uid() in viable_paths: 	return
+	move_to_tile(tile)
 
 func move_to_tile(tile: Tile) -> void:
-	var path: TilemapPath = viable_paths[tile.get_uid()]
 	cur_velocity = max_move_velocity
 	set_entity_acceleration(max_move_acceleration)
 	set_entity_max_velocity(max_move_velocity)
-	for move_tile in path.path:
-		action_queue.append({'action': 'move', 'tile': move_tile})
+	
+	var path: TilemapPath = viable_paths[tile.get_uid()]
+	if tile.is_occupied():
+		if len(path.path) - 1 > 0:
+			for ind in range(len(path.path) - 1):
+				action_queue.append({'action': 'move', 'tile': path.path[ind]})
+		action_queue.append({'action': 'interact', 	'tile': tile, 'unit': tile.get_occupying_unit()})
+	else:
+		for move_tile in path.path:
+			action_queue.append({'action': 'move', 'tile': move_tile})
 	
 	remaining_movement_points -= path.total_weight
 	_signal_status_bar_change()

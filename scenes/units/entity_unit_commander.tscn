@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1v2fp6vhvm61"]
+[gd_scene load_steps=16 format=3 uid="uid://c1v2fp6vhvm61"]
 
 [ext_resource type="Script" path="res://scripts/entities/units/entity_unit_commander.gd" id="1_1tg1e"]
 [ext_resource type="Texture2D" uid="uid://bjt0k044b2tli" path="res://assets/entities/units/knight/knight_1.png" id="2_7vnwk"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://5se6f7x6gec1" path="res://assets/ui/unit_gui_icons/basic_unit_emblem.png" id="6_d1xg6"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_movement.gd" id="6_p7taw"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_interact.gd" id="8_4kspy"]
-[ext_resource type="Script" path="res://scripts/entities/components/status_effects/status_effect_bleeding.gd" id="8_4t77l"]
 [ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_light_attack.gd" id="10_tlcxi"]
 [ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_heavy_attack.gd" id="12_qt5wd"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_status_bars.gd" id="14_3rui4"]
@@ -63,16 +62,13 @@ script = ExtResource("4_b7fa1")
 [node name="component_entity_status_effects" type="Node2D" parent="."]
 script = ExtResource("5_8i1x2")
 
-[node name="status_effect_bleeding" type="Node" parent="component_entity_status_effects"]
-script = ExtResource("8_4t77l")
-
 [node name="component_entity_movement" type="Node2D" parent="."]
 script = ExtResource("6_p7taw")
 max_move_velocity = 500.0
 
 [node name="component_entity_interact" type="Node2D" parent="."]
 script = ExtResource("8_4kspy")
-base_damage = 2
+base_damage = 1
 
 [node name="attack_light_attack" type="Node" parent="component_entity_interact"]
 script = ExtResource("10_tlcxi")
@@ -92,7 +88,6 @@ position = Vector2(3.66667, -33.3333)
 main_color = Color(0, 0, 1, 1)
 background_color = Color(0.470588, 0.470588, 0.470588, 0.784314)
 
-[connection signal="apply_damage" from="." to="component_entity_health" method="_on_damage"]
 [connection signal="mouse_entered" from="unit_sprite/info_icon/unit_area" to="component_signal_processor" method="_on_open_unit_tooltip"]
 [connection signal="mouse_exited" from="unit_sprite/info_icon/unit_area" to="component_signal_processor" method="_on_close_unit_tooltip"]
 [connection signal="entity_health_depleted" from="component_entity_health" to="." method="_on_health_depleted"]

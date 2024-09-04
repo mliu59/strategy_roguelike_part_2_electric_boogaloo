@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://dlgexbqkbxpy4"]
 
-[ext_resource type="Texture2D" path="res://aseprite_project_files/test_grass.png" id="2_pbrvn"]
+[ext_resource type="Texture2D" uid="uid://dliqsy0xhy4wf" path="res://assets/entities/world_decor/terrain/grass/test_grass.png" id="2_pbrvn"]
 [ext_resource type="Script" path="res://scripts/entities/world_decor/world_decor_base.gd" id="3_wcb6u"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8mhhq"]
@@ -83,8 +83,6 @@ animations = [{
 
 [node name="world_decor_white_flower" type="Node2D"]
 scale = Vector2(3, 3)
-
-[node name="component_signal_processor" type="Node" parent="."]
 
 [node name="white_flower" type="AnimatedSprite2D" parent="."]
 position = Vector2(0.333333, -8.33333)

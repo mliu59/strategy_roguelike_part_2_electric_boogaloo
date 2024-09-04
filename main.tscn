@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://difp34axv1cix"]
+[gd_scene load_steps=16 format=4 uid="uid://difp34axv1cix"]
 
 [ext_resource type="Script" path="res://scripts/battle_map.gd" id="1_6uc18"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ats3h"]
@@ -13,9 +13,17 @@
 [ext_resource type="Script" path="res://scripts/entity_manager/process_states/state_enemy_turn.gd" id="9_e00ri"]
 [ext_resource type="Script" path="res://scripts/gui/2d_scroll_camera.gd" id="11_xpr4s"]
 [ext_resource type="PackedScene" uid="uid://bsgesw60jwyg1" path="res://scenes/gui.tscn" id="12_wgvui"]
+[ext_resource type="Script" path="res://items/item_inventory.gd" id="14_i1qxt"]
+[ext_resource type="Script" path="res://items/test/item_poison_immune_test.gd" id="15_8ot5p"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_ats3h")
+
+[node name="item_inventory" type="Node" parent="."]
+script = ExtResource("14_i1qxt")
+
+[node name="item_poison_immune_test" type="Node" parent="item_inventory"]
+script = ExtResource("15_8ot5p")
 
 [node name="battle_map" type="Node" parent="."]
 script = ExtResource("1_6uc18")

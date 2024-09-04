@@ -28,17 +28,19 @@ func get_faction() -> int:
 func set_faction(faction_id: int) -> void:
 	faction_enum = faction_id
 	if faction_enum == ENEMY_FACTION:
-		$unit_sprite.toggle_hostile_emblem(true)
-		#$unit_sprite.set_modulate(Color(1, 0.5, 0.5, 1))
+		_set_hostile_visuals(true)
 		add_to_group("enemy_units")
 		remove_from_group("player_units")
 	else:
-		$unit_sprite.toggle_hostile_emblem(false)
-		#$unit_sprite.set_modulate(Color(1, 1, 1, 1))
+		_set_hostile_visuals(false)
 		add_to_group("player_units")
 		remove_from_group("enemy_units")
 func is_controllable() -> bool:
 	return get_faction() == 0
+
+func _set_hostile_visuals(val: bool) -> void:
+	$component_entity_status_bars.toggle_hostile(val)
+	$unit_sprite.toggle_hostile_emblem(val)
 
 func _init() -> void:
 	add_to_group("all_units")
@@ -76,6 +78,7 @@ func ai_get_nearest_hostile_path() -> TilemapPath:
 
 func end_turn() -> void:
 	$component_entity_movement.reset_movement()
+	apply_attack($component_entity_status_effects.apply_end_turn_statuses(Attack.new()))
 	$component_entity_status_effects.decrement_turn_timers()
 
 # HEALTH
@@ -90,11 +93,13 @@ func action_to_tile(tile: Tile):
 func apply_unit_interaction(unit: EntityUnit):
 	$component_entity_interact.apply_unit_interaction(unit)
 
-signal apply_damage(amt: int)
 func apply_attack(attack: Attack):
-	var process_status_effects: Status = $component_entity_status_effects.process_status_effects(attack)
-	apply_damage.emit(process_status_effects.resolved_damage)
+	var attk: Attack = $component_entity_status_effects.apply_defensive_statuses(attack)
+	$component_entity_health._on_damage(attk.damage_amount)
+	$component_entity_status_effects.apply_statuses(attk.applied_effects)
 
 func has_movement() -> bool:
 	return $component_entity_movement.remaining_movement_points > 0
 	
+func apply_item_effect(item: Item_Base) -> void:
+	$component_entity_status_effects.apply_statuses(item.applied_statuses)

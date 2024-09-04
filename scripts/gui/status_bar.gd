@@ -7,6 +7,7 @@ var color_fill_main = ColorRect.new()
 @export var background_color: Color = Color(1, 1, 1, 1)
 @export var total_pixel_len: int = 30
 const BAR_HEIGHT = 2
+const OUTER_BAR_HEIGHT = 4
 
 func _ready() -> void:
 	$background.color = background_color

@@ -43,7 +43,3 @@ func apply_actions(target: EntityUnit):
 			action_node.execute_action(target)
 		else:
 			print("NULL TARGET!")
-	
-# MAYBE???
-# every unit will apply every single attack move they have. 
-# Player can orchestrate the order of actions prior to action. Similar to balatro joker order

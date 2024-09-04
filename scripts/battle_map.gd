@@ -19,8 +19,8 @@ func _ready() -> void:
 		var tile = unit[2]
 		if tile == null:
 			tile = tiles.get_random_empty_traversable_tile()
-			#print(tile.tilemap_coordinates)
 		$entity_manager.spawn_unit_at_tile(unit[0], unit[1], tile)
-
+	
+	get_parent().get_node("item_inventory").apply_effects()
 	$process_state_machine.connect_unit_signals()
 	$process_state_machine.start_state_machine()

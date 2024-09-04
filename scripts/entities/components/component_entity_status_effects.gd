@@ -6,12 +6,19 @@ func _component_ready() -> void:
 	for child: StatusEffect in get_children():
 		effects_map[child.get_status_name()] = child
 
-func process_status_effects(attk: Attack) -> Status:
-	var status = Status.new()
-	status.resolved_damage = attk.damage_amount
-	for effect in attk.applied_effects:
-		effects_map[effect].add_turn_counter()
-	return status
+func apply_offensive_statuses(attk: Attack) -> Attack:
+	for child: StatusEffect in get_children():
+		print(child.get_status_name())
+		attk = child.apply_offensive_status(attk)
+	return attk
+func apply_defensive_statuses(attk: Attack) -> Attack:
+	for child: StatusEffect in get_children():
+		attk = child.apply_defensive_status(attk)
+	return attk
+func apply_end_turn_statuses(attk: Attack) -> Attack:
+	for child: StatusEffect in get_children():
+		attk = child.apply_end_turn_status(attk)
+	return attk
 
 func decrement_turn_timers() -> void:
 	for child: StatusEffect in get_children():
@@ -20,5 +27,19 @@ func decrement_turn_timers() -> void:
 func get_string() -> String:
 	var output: PackedStringArray = []
 	for child: StatusEffect in get_children():
-		output.append(child.get_status_name() + ": " + str(child.turns_remaining))
+		output.append(child.get_status_name() + ": " + str(child.get_turns_remaining()))
 	return "\n"+"\n".join(output)
+
+func apply_statuses(arr: Array) -> void:
+	for status: StatusEffect in arr:
+		if status.get_turns_remaining() <= 0 and not status.is_permanent():
+			continue
+		var found: bool = false
+		for child_status: StatusEffect in get_children():
+			if status.is_class(child_status.get_class()):
+				found = true
+				child_status.add_turn_counter(status.get_turns_remaining())
+		if not found:
+			var node: StatusEffect = status.duplicate()
+			node.add_turn_counter(status.get_turns_remaining())
+			add_child(node)

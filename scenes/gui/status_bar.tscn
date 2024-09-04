@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cg7e6vp3ajyvx" path="res://assets/ui/unit_gui_icons/status_bar.png" id="1_qoy2m"]
 [ext_resource type="Script" path="res://scripts/gui/status_bar.gd" id="2_vg7k6"]
 
-[node name="movement_bar" type="Sprite2D"]
+[node name="status_bar" type="Sprite2D"]
 texture = ExtResource("1_qoy2m")
 script = ExtResource("2_vg7k6")
 main_color = Color(1, 0, 0, 1)

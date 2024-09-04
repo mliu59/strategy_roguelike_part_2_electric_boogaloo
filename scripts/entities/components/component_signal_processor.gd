@@ -19,10 +19,11 @@ func _on_draw_tilemap(path: TilemapPath):
 	get_tree().call_group("hextile_map", "_draw_tilemappath", path)
 
 func _on_open_unit_tooltip():
-	var output := "{unit_name}\n"
+	var output := "{unit_name} {unit_uid}\n"
 	output += "Current tile: {unit_position}\n"
 	output = output.format({
 		"unit_name": get_parent().get_unit_name(),
+		"unit_uid": get_parent().get_uid(),
 		"unit_position": str(get_parent().current_tile.tilemap_coordinates),
 	})
 	

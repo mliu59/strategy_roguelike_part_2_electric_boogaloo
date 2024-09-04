@@ -10,7 +10,6 @@ func _component_ready() -> void:
 
 func _on_damage(dmg: int) -> void:
 	health = max(0, health - dmg)
-	print("Unit health ", health)
 	check_health_status()
 
 func _on_heal(amt: int) -> void:
