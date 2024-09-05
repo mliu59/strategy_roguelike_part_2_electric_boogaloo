@@ -2,6 +2,8 @@ extends Node2D
 
 class_name EntityUnit
 
+@export var _ranged: bool = false
+
 # IDENTIFICATION
 var _unit_uid: int = -1
 var _unit_name: String = "NULL"
@@ -47,10 +49,8 @@ func _init() -> void:
 	add_to_group("all_entities")
 
 func _ready() -> void:
-	# DEBUG
 	set_faction(faction_enum)
 
-# MOVEMENT
 var current_tile: Tile
 
 func set_starting_tile(tile: Tile) -> bool:
@@ -60,46 +60,39 @@ func set_starting_tile(tile: Tile) -> bool:
 
 func get_remaining_movement() -> float:
 	return $component_entity_movement.remaining_movement_points
+func has_movement() -> bool:
+	return get_remaining_movement() > 0
 
 func _set_current_tile(tile: Tile) -> void:
 	current_tile = tile
 	tile.occupy_tile(self)
-	print("entered tile ", tile.tilemap_coordinates)
 	
 func show_current_paths() -> void:
-	#get_tree().call_group("hextile_map", "_clear_highlights")
-	#get_tree().call_group("hextile_map", "_highlight_tile", current_tile)
 	$component_entity_movement.get_current_paths()
 	$component_entity_movement.show_current_paths()
 	
-
 func ai_get_nearest_hostile_path() -> TilemapPath:
 	return $component_entity_movement.ai_get_nearest_hostile_path()
 
-func end_turn() -> void:
-	$component_entity_movement.reset_movement()
-	apply_attack($component_entity_status_effects.apply_end_turn_statuses(Attack.new()))
-	$component_entity_status_effects.decrement_turn_timers()
-
-# HEALTH
-func _on_health_depleted() -> void:
-	print("unit death: ", _unit_uid)
-	current_tile.clear_unit()
-	self.queue_free()
+func is_ranged_unit() -> bool:
+	return _ranged
 
 func action_to_tile(tile: Tile):
 	$component_entity_movement.action_to_tile(tile)
-
-func apply_unit_interaction(unit: EntityUnit):
-	$component_entity_interact.apply_unit_interaction(unit)
 
 func apply_attack(attack: Attack):
 	var attk: Attack = $component_entity_status_effects.apply_defensive_statuses(attack)
 	$component_entity_health._on_damage(attk.damage_amount)
 	$component_entity_status_effects.apply_statuses(attk.applied_effects)
 
-func has_movement() -> bool:
-	return $component_entity_movement.remaining_movement_points > 0
-	
+func end_turn() -> void:
+	$component_entity_movement.reset_movement()
+	apply_attack($component_entity_status_effects.apply_end_turn_statuses(Attack.new()))
+	$component_entity_status_effects.decrement_turn_timers()
+
+func _on_health_depleted() -> void:
+	current_tile.clear_unit()
+	self.queue_free()
+
 func apply_item_effect(item: Item_Base) -> void:
 	$component_entity_status_effects.apply_statuses(item.applied_statuses)

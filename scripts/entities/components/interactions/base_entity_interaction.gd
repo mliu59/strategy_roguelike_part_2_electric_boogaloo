@@ -7,7 +7,9 @@ func get_interaction_name() -> String:
 func _get_attack() -> Attack:
 	var attk: Attack = Attack.new()
 	return attk
-
+func is_ranged() -> bool:
+	return false
+	
 func execute_action(_target: EntityUnit) -> void:
 	var attk: Attack = _get_attack()
 	attk = get_parent()._c_map['status_effects'].apply_offensive_statuses(attk)

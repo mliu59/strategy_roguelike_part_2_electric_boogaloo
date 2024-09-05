@@ -3,6 +3,7 @@ extends ComponentEntityBase
 @export var max_movement_points: float = 5
 var remaining_movement_points: float
 var viable_paths: Dictionary
+var viable_ranged_targets: Dictionary
 var moving: bool = false
 var current_tile: Tile
 var flip_dir_h: bool = false
@@ -41,19 +42,39 @@ func reset_movement() -> void:
 	_signal_status_bar_change()
 
 func get_current_paths() -> void:
+	if get_parent().is_ranged_unit():
+		viable_ranged_targets = find_all_ranged_targets(
+			get_parent().current_tile, 
+			_c_map['interact'].get_range())
 	viable_paths = find_all_paths(get_parent().current_tile, remaining_movement_points)
 func show_current_paths() -> void:
 	for uid in viable_paths:
 		var tile: Tile = viable_paths[uid].end_tile
-		if tile == get_parent().current_tile:
-			continue
+		if tile == get_parent().current_tile: continue
 		highlight_movable_cell.emit(tile)
+	if not get_parent().is_ranged_unit():
+		return 
+	for uid in viable_ranged_targets:
+		var tile: Tile = viable_ranged_targets[uid][0]
+		if tile == get_parent().current_tile: continue
+		highlight_movable_cell.emit(tile)
+
+func _post_attack_process() -> void:
+	_attacked = true
+	zero_movement()
 
 func _physics_process(delta: float) -> void:
 	if action_queue.is_empty():
 		moving = false
 		return
 	moving = true
+	if action_queue[0]['action'] == 'ranged_interact':
+		var action = action_queue.pop_front()
+		_post_attack_process()
+		_c_map['interact'].apply_unit_interaction(action['unit'])
+		_arrived_at_target()
+		return
+	
 	var target: Vector2 = action_queue[0]['tile'].global_position
 	var err: Vector2 = target - get_parent().global_position
 	
@@ -71,9 +92,8 @@ func _physics_process(delta: float) -> void:
 		if action_queue.is_empty():
 			_arrived_at_target()
 		elif action_queue[0]['action'] == 'interact':
-			_attacked = true
-			zero_movement()
-			get_parent().apply_unit_interaction(action_queue[0]['unit'])
+			_post_attack_process()
+			_c_map['interact'].apply_unit_interaction(action_queue[0]['unit'])
 			var dict = action_queue.pop_front()
 			if action_queue.is_empty():
 				if not dict['tile'].is_occupied():
@@ -95,7 +115,10 @@ func has_attacked() -> bool:
 
 func action_to_tile(tile: Tile) -> void:
 	if moving: return
-	get_current_paths()
+	if get_parent().is_ranged_unit():
+		if tile.get_uid() in viable_ranged_targets:
+			action_queue.append({'action': 'ranged_interact', 'tile': tile, 'unit': tile.get_occupying_unit()})
+			return
 	if not tile.is_traversable(): 			return
 	if not tile.get_uid() in viable_paths: 	return
 	move_to_tile(tile)
@@ -158,3 +181,32 @@ func find_all_paths(start: Tile,
 						queue.append(path)
 	
 	return paths
+
+func find_all_ranged_targets(	start: Tile, 
+								max_range: int) -> Dictionary:
+
+	if _attacked: return {}
+	
+	var paths: Dictionary = {}
+	var targets: Dictionary = {}
+	var queue: Array = [[start, 0]]
+
+	while len(queue) > 0:
+		var _arr: Array = queue.pop_front()
+		var tile: Tile = _arr[0]
+		var _len: int = _arr[1]
+		if _len >= max_range:
+			continue
+		var neighbors = tile.get_neighbors()
+		for neighbor: Tile in neighbors:
+			var end_tile_uid = neighbor.get_uid()
+			if neighbor.is_occupied() and get_parent().is_hostile(neighbor.get_occupying_unit()):
+				if (end_tile_uid not in paths) or \
+				   (paths[end_tile_uid] > _len + 1):
+					paths[end_tile_uid] = _len + 1
+					targets[end_tile_uid] = [neighbor, _len + 1]
+			if end_tile_uid not in paths:
+				paths[end_tile_uid] = _len + 1
+				queue.append([neighbor, _len + 1])
+	
+	return targets

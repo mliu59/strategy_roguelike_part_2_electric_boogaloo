@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c1v2fp6vhvm61"]
+[gd_scene load_steps=17 format=3 uid="uid://c1v2fp6vhvm61"]
 
 [ext_resource type="Script" path="res://scripts/entities/units/entity_unit_commander.gd" id="1_1tg1e"]
 [ext_resource type="Texture2D" uid="uid://bjt0k044b2tli" path="res://assets/entities/units/knight/knight_1.png" id="2_7vnwk"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_interact.gd" id="8_4kspy"]
 [ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_light_attack.gd" id="10_tlcxi"]
 [ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_heavy_attack.gd" id="12_qt5wd"]
+[ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_light_ranged_attack.gd" id="13_vlmmq"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_status_bars.gd" id="14_3rui4"]
 [ext_resource type="PackedScene" uid="uid://bo3uimjjqhsre" path="res://scenes/gui/status_bar.tscn" id="15_f3je2"]
 
@@ -64,17 +65,21 @@ script = ExtResource("5_8i1x2")
 
 [node name="component_entity_movement" type="Node2D" parent="."]
 script = ExtResource("6_p7taw")
+max_movement_points = 2.0
 max_move_velocity = 500.0
 
 [node name="component_entity_interact" type="Node2D" parent="."]
 script = ExtResource("8_4kspy")
-base_damage = 1
+_base_damage = 2
 
 [node name="attack_light_attack" type="Node" parent="component_entity_interact"]
 script = ExtResource("10_tlcxi")
 
 [node name="attack_heavy_attack" type="Node" parent="component_entity_interact"]
 script = ExtResource("12_qt5wd")
+
+[node name="attack_light_ranged_attack" type="Node" parent="component_entity_interact"]
+script = ExtResource("13_vlmmq")
 
 [node name="component_entity_status_bars" type="Node2D" parent="."]
 script = ExtResource("14_3rui4")
