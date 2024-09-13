@@ -4,7 +4,8 @@ var unit_uid_counter: int = 0
 
 func _get_scenes() -> Array:
 	return [
-		"res://scenes/units/entity_unit_commander.tscn"
+		"res://scenes/units/entity_unit_commander.tscn",
+		"res://scenes/units/entity_unit_longbowman.tscn"
 	]
 	
 func spawn_unit_at_tile(unit_name	: String,

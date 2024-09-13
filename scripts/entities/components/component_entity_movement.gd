@@ -12,22 +12,18 @@ var _attacked: bool = false
 
 var action_queue: Array = []
 
-@export var max_move_velocity: float = 200
-@export var max_move_acceleration: float = 100
-var cur_velocity: float = 0
-
 signal highlight_cell(tile: Tile)
 signal highlight_path(path: TilemapPath)
 signal clear_highlights
 signal highlight_movable_cell(tile: Tile)
-signal flip_sprite(dir: bool)
-signal entered_tile(tile: Tile)
 signal action_to_tile_complete()
 
 func get_string() -> String:
-	return "%s/%s" % [remaining_movement_points, max_movement_points]
+	return "%s/%s atkd:%s" % [remaining_movement_points, max_movement_points, _attacked]
 
 func _component_ready() -> void:
+	$process_state_machine_unit/unit_state_idle.connect("idle_state_reached", _arrived_at_target)
+	$process_state_machine_unit.start_state_machine()
 	reset_movement()
 
 func _signal_status_bar_change() -> void:
@@ -36,6 +32,9 @@ func _signal_status_bar_change() -> void:
 func zero_movement() -> void:
 	remaining_movement_points = 0
 	_signal_status_bar_change()
+
+func reset_attacked_counter() -> void:
+	_attacked = false
 
 func reset_movement() -> void:
 	remaining_movement_points = max_movement_points
@@ -47,6 +46,7 @@ func get_current_paths() -> void:
 			get_parent().current_tile, 
 			_c_map['interact'].get_range())
 	viable_paths = find_all_paths(get_parent().current_tile, remaining_movement_points)
+
 func show_current_paths() -> void:
 	for uid in viable_paths:
 		var tile: Tile = viable_paths[uid].end_tile
@@ -62,59 +62,17 @@ func show_current_paths() -> void:
 func _post_attack_process() -> void:
 	_attacked = true
 	zero_movement()
-
-func _physics_process(delta: float) -> void:
-	if action_queue.is_empty():
-		moving = false
-		return
-	moving = true
-	if action_queue[0]['action'] == 'ranged_interact':
-		var action = action_queue.pop_front()
-		_post_attack_process()
-		_c_map['interact'].apply_unit_interaction(action['unit'])
-		_arrived_at_target()
-		return
-	
-	var target: Vector2 = action_queue[0]['tile'].global_position
-	var err: Vector2 = target - get_parent().global_position
-	
-	if flip_dir_h != (err[0] < 0):
-		flip_dir_h = err[0] < 0
-		flip_sprite.emit(flip_dir_h)
-		
-	cur_velocity = min(cur_velocity + max_move_acceleration * delta, max_move_velocity)
-	get_parent().global_position = get_parent().global_position.move_toward(
-		target, cur_velocity * delta)
-	if get_parent().global_position == target:
-		get_parent().current_tile.clear_unit()
-		entered_tile.emit(action_queue[0]['tile'])
-		action_queue.pop_front()
-		if action_queue.is_empty():
-			_arrived_at_target()
-		elif action_queue[0]['action'] == 'interact':
-			_post_attack_process()
-			_c_map['interact'].apply_unit_interaction(action_queue[0]['unit'])
-			var dict = action_queue.pop_front()
-			if action_queue.is_empty():
-				if not dict['tile'].is_occupied():
-					action_queue.append({'action': 'move', 'tile': dict['tile']}) 
-				else:
-					_arrived_at_target()
 			
 func _arrived_at_target() -> void:
 	clear_highlights.emit()
 	action_to_tile_complete.emit()
-
-func set_entity_acceleration(a) -> void:
-	max_move_acceleration = a
-func set_entity_max_velocity(v) -> void:
-	max_move_velocity = v
 
 func has_attacked() -> bool:
 	return _attacked
 
 func action_to_tile(tile: Tile) -> void:
 	if moving: return
+	action_queue.clear()
 	if get_parent().is_ranged_unit():
 		if tile.get_uid() in viable_ranged_targets:
 			action_queue.append({'action': 'ranged_interact', 'tile': tile, 'unit': tile.get_occupying_unit()})
@@ -122,12 +80,9 @@ func action_to_tile(tile: Tile) -> void:
 	if not tile.is_traversable(): 			return
 	if not tile.get_uid() in viable_paths: 	return
 	move_to_tile(tile)
+		
 
 func move_to_tile(tile: Tile) -> void:
-	cur_velocity = max_move_velocity
-	set_entity_acceleration(max_move_acceleration)
-	set_entity_max_velocity(max_move_velocity)
-	
 	var path: TilemapPath = viable_paths[tile.get_uid()]
 	if tile.is_occupied():
 		if len(path.path) - 1 > 0:
@@ -137,18 +92,29 @@ func move_to_tile(tile: Tile) -> void:
 	else:
 		for move_tile in path.path:
 			action_queue.append({'action': 'move', 'tile': move_tile})
+	# deduct_movement_points(path.total_weight)
 	
-	remaining_movement_points -= path.total_weight
+func deduct_movement_points(w: float) -> void:
+	remaining_movement_points -= w
 	_signal_status_bar_change()
 
-func ai_get_nearest_hostile_path() -> TilemapPath:
+func ai_get_nearest_hostile_path() -> Tile:
 	get_current_paths()
-	var min_path: TilemapPath = null
-	for key in viable_paths:
-		var path: TilemapPath = viable_paths[key]
-		if path.end_tile.is_occupied() and path.end_tile.get_occupying_unit().is_hostile(get_parent()):
-			if min_path == null or path.total_weight < min_path.total_weight:
-				min_path = path
+	var min_path: Tile = null
+	if get_parent().is_ranged_unit():
+		var min_target: Array = []
+		for key in viable_ranged_targets:
+			var target = viable_ranged_targets[key]
+			if min_target.is_empty() or target[1] < min_target[1]:
+				min_target = target
+		if not min_target.is_empty():
+			return min_target[0]
+	if min_path == null:
+		for key in viable_paths:
+			var path: TilemapPath = viable_paths[key]
+			if path.end_tile.is_occupied() and path.end_tile.get_occupying_unit().is_hostile(get_parent()):
+				if min_path == null or path.total_weight < min_path.total_weight:
+					min_path = path.end_tile
 	return min_path
 
 func find_all_paths(start: Tile, 
@@ -185,7 +151,9 @@ func find_all_paths(start: Tile,
 func find_all_ranged_targets(	start: Tile, 
 								max_range: int) -> Dictionary:
 
-	if _attacked: return {}
+	if has_attacked(): 
+		print("skipping check because attacked")
+		return {}
 	
 	var paths: Dictionary = {}
 	var targets: Dictionary = {}

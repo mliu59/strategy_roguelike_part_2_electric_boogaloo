@@ -13,8 +13,8 @@ script = ExtResource("2_sityj")
 [node name="hextile_tilemap_generator" type="Node2D" parent="."]
 position = Vector2(0, -2)
 script = ExtResource("3_bfsdo")
-map_size_x = 7
-map_size_y = 7
+map_size_x = 5
+map_size_y = 5
 
 [node name="hextile_tilemap_movable_tiles" type="TileMapLayer" parent="."]
 modulate = Color(0, 1, 0.447059, 0.588235)

@@ -1,26 +1,25 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1v2fp6vhvm61"]
+[gd_scene load_steps=16 format=3 uid="uid://c1v2fp6vhvm61"]
 
 [ext_resource type="Script" path="res://scripts/entities/units/entity_unit_commander.gd" id="1_1tg1e"]
 [ext_resource type="Texture2D" uid="uid://bjt0k044b2tli" path="res://assets/entities/units/knight/knight_1.png" id="2_7vnwk"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_signal_processor.gd" id="2_t84xm"]
 [ext_resource type="Script" path="res://scripts/entities/rendering/unit_sprite.gd" id="3_ow7tr"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_health.gd" id="4_b7fa1"]
-[ext_resource type="Texture2D" uid="uid://cp4fe5jmgi0rm" path="res://assets/ui/unit_gui_icons/info.png" id="5_6vdgt"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_status_effects.gd" id="5_8i1x2"]
 [ext_resource type="Texture2D" uid="uid://5se6f7x6gec1" path="res://assets/ui/unit_gui_icons/basic_unit_emblem.png" id="6_d1xg6"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_movement.gd" id="6_p7taw"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_interact.gd" id="8_4kspy"]
+[ext_resource type="PackedScene" uid="uid://day2ydimag0je" path="res://scenes/units/components/process_state_machine_unit.tscn" id="9_h830u"]
 [ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_light_attack.gd" id="10_tlcxi"]
 [ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_heavy_attack.gd" id="12_qt5wd"]
-[ext_resource type="Script" path="res://scripts/entities/components/interactions/attacks/attack_light_ranged_attack.gd" id="13_vlmmq"]
 [ext_resource type="Script" path="res://scripts/entities/components/component_entity_status_bars.gd" id="14_3rui4"]
 [ext_resource type="PackedScene" uid="uid://bo3uimjjqhsre" path="res://scenes/gui/status_bar.tscn" id="15_f3je2"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ioclt"]
-radius = 4.88014
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vfqr0"]
+height = 34.0
 
 [node name="entity_unit_commander" type="Node2D"]
-scale = Vector2(3, 3)
+scale = Vector2(2.5, 2.5)
 script = ExtResource("1_1tg1e")
 
 [node name="component_signal_processor" type="Node" parent="."]
@@ -40,21 +39,15 @@ scale = Vector2(0.75, 0.1)
 texture = ExtResource("2_7vnwk")
 offset = Vector2(0, -13)
 
-[node name="info_icon" type="Sprite2D" parent="unit_sprite"]
-position = Vector2(11.6667, -25.3333)
-texture = ExtResource("5_6vdgt")
+[node name="unit_area" type="Area2D" parent="unit_sprite"]
 
-[node name="unit_area" type="Area2D" parent="unit_sprite/info_icon"]
-position = Vector2(-11.6667, 25.3333)
-
-[node name="unit_collision_shape" type="CollisionShape2D" parent="unit_sprite/info_icon/unit_area"]
-visible = false
-position = Vector2(12.3333, -25)
-shape = SubResource("CircleShape2D_ioclt")
+[node name="unit_collision_shape" type="CollisionShape2D" parent="unit_sprite/unit_area"]
+position = Vector2(0.666666, -12.3333)
+shape = SubResource("CapsuleShape2D_vfqr0")
 debug_color = Color(0, 0.6, 0.701961, 0.505882)
 
 [node name="hostile_unit_emblem" type="Sprite2D" parent="unit_sprite"]
-position = Vector2(15.6667, -15)
+position = Vector2(12, -26)
 texture = ExtResource("6_d1xg6")
 
 [node name="component_entity_health" type="Node2D" parent="."]
@@ -66,7 +59,8 @@ script = ExtResource("5_8i1x2")
 [node name="component_entity_movement" type="Node2D" parent="."]
 script = ExtResource("6_p7taw")
 max_movement_points = 2.0
-max_move_velocity = 500.0
+
+[node name="process_state_machine_unit" parent="component_entity_movement" instance=ExtResource("9_h830u")]
 
 [node name="component_entity_interact" type="Node2D" parent="."]
 script = ExtResource("8_4kspy")
@@ -77,9 +71,6 @@ script = ExtResource("10_tlcxi")
 
 [node name="attack_heavy_attack" type="Node" parent="component_entity_interact"]
 script = ExtResource("12_qt5wd")
-
-[node name="attack_light_ranged_attack" type="Node" parent="component_entity_interact"]
-script = ExtResource("13_vlmmq")
 
 [node name="component_entity_status_bars" type="Node2D" parent="."]
 script = ExtResource("14_3rui4")
@@ -93,8 +84,5 @@ position = Vector2(3.66667, -33.3333)
 main_color = Color(0, 0, 1, 1)
 background_color = Color(0.470588, 0.470588, 0.470588, 0.784314)
 
-[connection signal="mouse_entered" from="unit_sprite/info_icon/unit_area" to="component_signal_processor" method="_on_open_unit_tooltip"]
-[connection signal="mouse_exited" from="unit_sprite/info_icon/unit_area" to="component_signal_processor" method="_on_close_unit_tooltip"]
-[connection signal="entity_health_depleted" from="component_entity_health" to="." method="_on_health_depleted"]
-[connection signal="entered_tile" from="component_entity_movement" to="." method="_set_current_tile"]
-[connection signal="flip_sprite" from="component_entity_movement" to="unit_sprite" method="_on_component_entity_movement_flip_sprite"]
+[connection signal="mouse_entered" from="unit_sprite/unit_area" to="component_signal_processor" method="_on_open_unit_tooltip"]
+[connection signal="mouse_exited" from="unit_sprite/unit_area" to="component_signal_processor" method="_on_close_unit_tooltip"]

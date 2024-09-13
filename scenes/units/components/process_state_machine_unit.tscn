@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3 uid="uid://day2ydimag0je"]
+
+[ext_resource type="Script" path="res://scripts/state_machine/process_state_machine_unit.gd" id="1_d0rgi"]
+[ext_resource type="Script" path="res://scripts/state_machine/unit_states/unit_state_idle.gd" id="2_yln04"]
+[ext_resource type="Script" path="res://scripts/state_machine/unit_states/unit_state_move.gd" id="3_dmtkh"]
+[ext_resource type="Script" path="res://scripts/state_machine/unit_states/unit_state_attack.gd" id="4_6aibu"]
+[ext_resource type="Script" path="res://scripts/state_machine/unit_states/unit_state_ranged_attack.gd" id="5_n6e5c"]
+[ext_resource type="Script" path="res://scripts/state_machine/unit_states/unit_state_action_complete.gd" id="6_kh78g"]
+
+[node name="process_state_machine_unit" type="Node"]
+script = ExtResource("1_d0rgi")
+
+[node name="unit_state_idle" type="Node" parent="."]
+script = ExtResource("2_yln04")
+
+[node name="unit_state_move" type="Node" parent="."]
+script = ExtResource("3_dmtkh")
+
+[node name="unit_state_attack" type="Node" parent="."]
+script = ExtResource("4_6aibu")
+
+[node name="unit_state_ranged_attack" type="Node" parent="."]
+script = ExtResource("5_n6e5c")
+
+[node name="unit_state_action_complete" type="Node" parent="."]
+script = ExtResource("6_kh78g")

@@ -1,8 +1,10 @@
 extends ProcessState
 
 func enter(_data: Dictionary):
-	print("entering unit select")
+	get_tree().call_group("hextile_map", "_clear_highlights")
+	#print("entering unit select")
 	for child in get_tree().get_nodes_in_group("player_units"):
+		#print("unit selected! %s %s" % [child._unit_uid, child.get_unit_name()])
 		if child.has_movement():
 			get_tree().call_group("hextile_map", "_highlight_tile", child.current_tile)
 		else:

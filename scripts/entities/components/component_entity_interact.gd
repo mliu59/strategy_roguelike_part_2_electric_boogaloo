@@ -17,7 +17,7 @@ func _component_ready() -> void:
 			add_action(child, -1, false)
 
 func apply_unit_interaction(unit: EntityUnit):
-	print("attack unit!! ", unit.get_uid(), unit.get_unit_name())
+	print("attack unit!! target: ", unit.get_uid(), " ", unit.get_unit_name())
 	apply_actions(unit)
 
 func get_string() -> String:

@@ -15,7 +15,8 @@ func apply_defensive_statuses(attk: Attack) -> Attack:
 	for child: StatusEffect in get_children():
 		attk = child.apply_defensive_status(attk)
 	return attk
-func apply_end_turn_statuses(attk: Attack) -> Attack:
+func apply_end_turn_statuses() -> Attack:
+	var attk: Attack = Attack.new()
 	for child: StatusEffect in get_children():
 		attk = child.apply_end_turn_status(attk)
 	return attk

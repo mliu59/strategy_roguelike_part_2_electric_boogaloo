@@ -17,9 +17,9 @@ func _on_heal(amt: int) -> void:
 	check_health_status()
 
 func check_health_status() -> void:
-	print(health)
 	_signal_status_bar_change()
 	if health <= 0:
+		get_parent()._on_health_depleted()
 		entity_health_depleted.emit()
 
 func get_string() -> String:

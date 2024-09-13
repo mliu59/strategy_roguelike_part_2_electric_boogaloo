@@ -5,8 +5,10 @@ var tiles: TileContainer
 const _initial_units: Array = [
 	["entity_unit_commander", 0, null],
 	["entity_unit_commander", 0, null],
-	["entity_unit_commander", 1, null],
-	["entity_unit_commander", 1, null]
+	#["entity_unit_commander", 1, null],
+	#["entity_unit_commander", 1, null],
+	["entity_unit_longbowman", 0, null],
+	["entity_unit_longbowman", 1, null],
 ]
 
 func _ready() -> void:

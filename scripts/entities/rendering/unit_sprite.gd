@@ -6,6 +6,8 @@ class_name Sprite2DWithShadow
 var has_shadow: bool = false
 
 func _ready() -> void:
+	get_node("../component_entity_movement/process_state_machine_unit/unit_state_move").connect(
+		"flip_sprite", _on_component_entity_movement_flip_sprite)
 	$shadow_sprite.offset = offset
 	$shadow_sprite.texture = texture
 	$shadow_sprite.skew = deg_to_rad(shadow_angle)
