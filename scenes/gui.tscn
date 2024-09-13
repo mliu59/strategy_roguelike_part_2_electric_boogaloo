@@ -1,19 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsgesw60jwyg1"]
+[gd_scene load_steps=7 format=3 uid="uid://bsgesw60jwyg1"]
 
 [ext_resource type="Script" path="res://scripts/gui/unit_hover_info_box.gd" id="1_25jvk"]
 [ext_resource type="Script" path="res://scripts/gui/end_turn_button.gd" id="1_hhkui"]
+[ext_resource type="Texture2D" uid="uid://d2qtky0541cg3" path="res://items/snow_lotus/snow_lotus.png" id="3_27p02"]
+[ext_resource type="Texture2D" uid="uid://bj4lqcgouudft" path="res://items/unused/the_kings_missive.png" id="4_nlg5q"]
+[ext_resource type="Texture2D" uid="uid://bgo6tuffv186c" path="res://items/unused/five_leaf_clover.png" id="5_isc7f"]
+[ext_resource type="Texture2D" uid="uid://cwbh53vyuehf1" path="res://items/unused/icarus_feathers.png" id="6_dg8eo"]
 
 [node name="gui" type="CanvasLayer"]
 layer = 7
 follow_viewport_enabled = true
-
-[node name="end_turn_button" type="Button" parent="."]
-offset_left = 8.0
-offset_top = 607.0
-offset_right = 97.0
-offset_bottom = 638.0
-text = "End turn"
-script = ExtResource("1_hhkui")
 
 [node name="placeholder_gui" type="VBoxContainer" parent="."]
 offset_left = 25.0
@@ -43,3 +39,47 @@ hahhahaha
 hahhaahhaha"
 autowrap_mode = 2
 text_overrun_behavior = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = -54.0
+offset_right = -17.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="end_turn_button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+text = "End turn"
+icon = ExtResource("4_nlg5q")
+script = ExtResource("1_hhkui")
+
+[node name="inventory_items" type="VFlowContainer" parent="HBoxContainer" groups=["gui_item_display"]]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/inventory_items"]
+layout_mode = 2
+texture = ExtResource("3_27p02")
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer/inventory_items"]
+layout_mode = 2
+texture = ExtResource("4_nlg5q")
+
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer/inventory_items"]
+layout_mode = 2
+texture = ExtResource("5_isc7f")
+
+[node name="TextureRect4" type="TextureRect" parent="HBoxContainer/inventory_items"]
+layout_mode = 2
+texture = ExtResource("6_dg8eo")

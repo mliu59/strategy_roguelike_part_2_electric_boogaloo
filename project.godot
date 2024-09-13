@@ -28,6 +28,7 @@ singleton_hover_info_box=""
 all_units="all unit entities"
 all_entities=""
 global_turn_based_state_machine="state machine for determining turn based game logic"
+gui_item_display=""
 
 [input]
 
