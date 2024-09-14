@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj4lqcgouudft"
-path="res://.godot/imported/the_kings_missive.png-aed79481cc4a939ee12f6be6a59b75f7.ctex"
+uid="uid://ctfg4wcfagitv"
+path="res://.godot/imported/snow_lotus.png-1ea44f521ddedeaa57db489350c89b04.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/the_kings_missive.png"
-dest_files=["res://.godot/imported/the_kings_missive.png-aed79481cc4a939ee12f6be6a59b75f7.ctex"]
+source_file="res://assets/items/snow_lotus.png"
+dest_files=["res://.godot/imported/snow_lotus.png-1ea44f521ddedeaa57db489350c89b04.ctex"]
 
 [params]
 

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsfv33cio06co"]
+
+[ext_resource type="Script" path="res://scripts/items/item_base.gd" id="1_lhpjc"]
+
+[node name="generic_item" type="Node"]
+script = ExtResource("1_lhpjc")
+
+[node name="item_sprite" type="TextureRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0

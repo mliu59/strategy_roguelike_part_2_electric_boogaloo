@@ -74,8 +74,9 @@ func has_movement() -> bool:
 	return get_remaining_movement() > 0
 
 func _set_current_tile(tile: Tile) -> void:
+	if current_tile != null:
+		current_tile.clear_unit()
 	current_tile = tile
-	current_tile.clear_unit()
 	tile.occupy_tile(self)
 	
 func show_current_paths() -> void:

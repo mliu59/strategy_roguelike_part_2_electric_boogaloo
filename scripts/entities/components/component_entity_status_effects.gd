@@ -8,7 +8,7 @@ func _component_ready() -> void:
 
 func apply_offensive_statuses(attk: Attack) -> Attack:
 	for child: StatusEffect in get_children():
-		print(child.get_status_name())
+		#print(child.get_status_name())
 		attk = child.apply_offensive_status(attk)
 	return attk
 func apply_defensive_statuses(attk: Attack) -> Attack:
@@ -33,14 +33,16 @@ func get_string() -> String:
 
 func apply_statuses(arr: Array) -> void:
 	for status: StatusEffect in arr:
+		print(status.get_status_name())
 		if status.get_turns_remaining() <= 0 and not status.is_permanent():
 			continue
 		var found: bool = false
 		for child_status: StatusEffect in get_children():
-			if status.is_class(child_status.get_class()):
+			if status.get_status_name() == child_status.get_status_name():
 				found = true
 				child_status.add_turn_counter(status.get_turns_remaining())
 		if not found:
 			var node: StatusEffect = status.duplicate()
 			node.add_turn_counter(status.get_turns_remaining())
 			add_child(node)
+	print(get_children())

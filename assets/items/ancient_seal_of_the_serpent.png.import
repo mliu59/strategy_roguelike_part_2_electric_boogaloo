@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ci2kgc4wc6og8"
-path="res://.godot/imported/ectoplasm.png-76a512bb3a7bd34d5387ed7afaeda609.ctex"
+uid="uid://fgsutptbwuc3"
+path="res://.godot/imported/ancient_seal_of_the_serpent.png-eaaa9663c4c4d032a1c9043abb714b80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/ectoplasm.png"
-dest_files=["res://.godot/imported/ectoplasm.png-76a512bb3a7bd34d5387ed7afaeda609.ctex"]
+source_file="res://assets/items/ancient_seal_of_the_serpent.png"
+dest_files=["res://.godot/imported/ancient_seal_of_the_serpent.png-eaaa9663c4c4d032a1c9043abb714b80.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwbh53vyuehf1"
-path="res://.godot/imported/icarus_feathers.png-fb44335d36b022793f6e6c1a7ffe8f4c.ctex"
+uid="uid://b33vj5om2xhpi"
+path="res://.godot/imported/compass.png-798bb08cc2a3614891ec3aa675b6a69c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/icarus_feathers.png"
-dest_files=["res://.godot/imported/icarus_feathers.png-fb44335d36b022793f6e6c1a7ffe8f4c.ctex"]
+source_file="res://assets/items/compass.png"
+dest_files=["res://.godot/imported/compass.png-798bb08cc2a3614891ec3aa675b6a69c.ctex"]
 
 [params]
 

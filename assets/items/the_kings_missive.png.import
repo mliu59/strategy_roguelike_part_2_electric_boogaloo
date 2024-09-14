@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1ov4wlwr00dg"
-path="res://.godot/imported/black_pearl.png-67d183d0fcf8c37c55f9b231af7716b6.ctex"
+uid="uid://bj4lqcgouudft"
+path="res://.godot/imported/the_kings_missive.png-c6fc52df75fd4978b34cc965f81fef6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/black_pearl.png"
-dest_files=["res://.godot/imported/black_pearl.png-67d183d0fcf8c37c55f9b231af7716b6.ctex"]
+source_file="res://assets/items/the_kings_missive.png"
+dest_files=["res://.godot/imported/the_kings_missive.png-c6fc52df75fd4978b34cc965f81fef6a.ctex"]
 
 [params]
 

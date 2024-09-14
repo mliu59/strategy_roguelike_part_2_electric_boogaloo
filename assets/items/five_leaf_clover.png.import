@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fgsutptbwuc3"
-path="res://.godot/imported/ancient_seal_of_the_serpent.png-1ae2e1068adb1dc8ddeb12a92b692ca5.ctex"
+uid="uid://bgo6tuffv186c"
+path="res://.godot/imported/five_leaf_clover.png-d2cf649346587fa66ab8c882c69e942e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/ancient_seal_of_the_serpent.png"
-dest_files=["res://.godot/imported/ancient_seal_of_the_serpent.png-1ae2e1068adb1dc8ddeb12a92b692ca5.ctex"]
+source_file="res://assets/items/five_leaf_clover.png"
+dest_files=["res://.godot/imported/five_leaf_clover.png-d2cf649346587fa66ab8c882c69e942e.ctex"]
 
 [params]
 

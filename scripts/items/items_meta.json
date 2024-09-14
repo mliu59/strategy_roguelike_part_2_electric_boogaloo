@@ -1,0 +1,24 @@
+[
+	{
+		"item_name": "snow_lotus",
+		"item_type": 0,
+		"display_name": "SNOW LOTUS",
+		"effect_description": "Grants your troops immunity against poisonous attacks.",
+		"lore_description": "A rare flower that only grows in the coldest regions of the world.",
+		"status_effects": [
+			"StatusEffect_PoisonImmune"
+		],
+		"sprite_file": "snow_lotus.png"
+	},
+	{
+		"item_name": "wooden_round_shield",
+		"item_type": 0,
+		"display_name": "WOODEN ROUND SHIELD",
+		"effect_description": "Grants your troops 1 extra defense.",
+		"lore_description": "An old and tattered wooden shield. Its glory days are clearly long past, but it's better than nothing.",
+		"status_effects": [
+			"StatusEffect_Defense"
+		],
+		"sprite_file": "wooden_round_shield.png"
+	}
+]

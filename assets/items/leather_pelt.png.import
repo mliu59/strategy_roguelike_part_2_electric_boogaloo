@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b33vj5om2xhpi"
-path="res://.godot/imported/compass.png-5c1648f6ed8b901c5413b82589ce2859.ctex"
+uid="uid://d0nwwlgksl2fk"
+path="res://.godot/imported/leather_pelt.png-e228f2a478b01cb15438dceacbbb0fec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/compass.png"
-dest_files=["res://.godot/imported/compass.png-5c1648f6ed8b901c5413b82589ce2859.ctex"]
+source_file="res://assets/items/leather_pelt.png"
+dest_files=["res://.godot/imported/leather_pelt.png-e228f2a478b01cb15438dceacbbb0fec.ctex"]
 
 [params]
 

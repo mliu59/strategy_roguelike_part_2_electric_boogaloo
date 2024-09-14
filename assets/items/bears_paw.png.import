@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq4kpviaw1mhf"
-path="res://.godot/imported/swordmaster_1.png-df18c8ac981eb61bb20a64d01f1d4eba.ctex"
+uid="uid://cjnbeevqi3ntj"
+path="res://.godot/imported/bears_paw.png-cd85ff575889a6ab36c6a2c504a8066b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/entities/units/swordmaster/swordmaster_1.png"
-dest_files=["res://.godot/imported/swordmaster_1.png-df18c8ac981eb61bb20a64d01f1d4eba.ctex"]
+source_file="res://assets/items/bears_paw.png"
+dest_files=["res://.godot/imported/bears_paw.png-cd85ff575889a6ab36c6a2c504a8066b.ctex"]
 
 [params]
 

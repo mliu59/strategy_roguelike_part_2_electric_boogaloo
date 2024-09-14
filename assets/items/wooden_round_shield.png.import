@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgo6tuffv186c"
-path="res://.godot/imported/five_leaf_clover.png-44359aeacfba1da62ef4e63d920a45d6.ctex"
+uid="uid://d02yh6mbtq5dv"
+path="res://.godot/imported/wooden_round_shield.png-b798e715382b99742eccca4817cf3d18.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/five_leaf_clover.png"
-dest_files=["res://.godot/imported/five_leaf_clover.png-44359aeacfba1da62ef4e63d920a45d6.ctex"]
+source_file="res://assets/items/wooden_round_shield.png"
+dest_files=["res://.godot/imported/wooden_round_shield.png-b798e715382b99742eccca4817cf3d18.ctex"]
 
 [params]
 

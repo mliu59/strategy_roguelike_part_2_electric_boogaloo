@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjnbeevqi3ntj"
-path="res://.godot/imported/bears_paw.png-2f325d7a21c54bcf0fe4e209466f6f89.ctex"
+uid="uid://b5fop32lt8b1u"
+path="res://.godot/imported/elixir_bottle.png-69dddd6d7b4f940dfc2d76a563ba672e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/bears_paw.png"
-dest_files=["res://.godot/imported/bears_paw.png-2f325d7a21c54bcf0fe4e209466f6f89.ctex"]
+source_file="res://assets/items/elixir_bottle.png"
+dest_files=["res://.godot/imported/elixir_bottle.png-69dddd6d7b4f940dfc2d76a563ba672e.ctex"]
 
 [params]
 

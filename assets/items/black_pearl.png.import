@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blcc8kiuquvv"
-path="res://.godot/imported/wooden_round_shield.png-569b356f892359ca1f81f0df61b615f2.ctex"
+uid="uid://1ov4wlwr00dg"
+path="res://.godot/imported/black_pearl.png-bea020ed0b77d87ac46a183bf576e175.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://items/unused/wooden_round_shield.png"
-dest_files=["res://.godot/imported/wooden_round_shield.png-569b356f892359ca1f81f0df61b615f2.ctex"]
+source_file="res://assets/items/black_pearl.png"
+dest_files=["res://.godot/imported/black_pearl.png-bea020ed0b77d87ac46a183bf576e175.ctex"]
 
 [params]
 

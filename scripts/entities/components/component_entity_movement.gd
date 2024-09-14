@@ -84,13 +84,15 @@ func action_to_tile(tile: Tile) -> void:
 
 func move_to_tile(tile: Tile) -> void:
 	var path: TilemapPath = viable_paths[tile.get_uid()]
+	var tile_order: Array = path.path.duplicate()
+	tile_order.pop_front()
 	if tile.is_occupied():
-		if len(path.path) - 1 > 0:
-			for ind in range(len(path.path) - 1):
-				action_queue.append({'action': 'move', 'tile': path.path[ind]})
+		if len(tile_order) - 1 > 0:
+			for ind in range(len(tile_order) - 1):
+				action_queue.append({'action': 'move', 'tile': tile_order[ind]})
 		action_queue.append({'action': 'interact', 	'tile': tile, 'unit': tile.get_occupying_unit()})
 	else:
-		for move_tile in path.path:
+		for move_tile in tile_order:
 			action_queue.append({'action': 'move', 'tile': move_tile})
 	# deduct_movement_points(path.total_weight)
 	
@@ -100,7 +102,7 @@ func deduct_movement_points(w: float) -> void:
 
 func ai_get_nearest_hostile_path() -> Tile:
 	get_current_paths()
-	var min_path: Tile = null
+	var min_tile: Tile = null
 	if get_parent().is_ranged_unit():
 		var min_target: Array = []
 		for key in viable_ranged_targets:
@@ -109,13 +111,16 @@ func ai_get_nearest_hostile_path() -> Tile:
 				min_target = target
 		if not min_target.is_empty():
 			return min_target[0]
-	if min_path == null:
+	var min_path: TilemapPath = null
+	if min_tile == null:
 		for key in viable_paths:
 			var path: TilemapPath = viable_paths[key]
 			if path.end_tile.is_occupied() and path.end_tile.get_occupying_unit().is_hostile(get_parent()):
 				if min_path == null or path.total_weight < min_path.total_weight:
-					min_path = path.end_tile
-	return min_path
+					min_path = path
+					min_tile = path.end_tile
+					
+	return min_tile
 
 func find_all_paths(start: Tile, 
 					max_movement_weight: float,

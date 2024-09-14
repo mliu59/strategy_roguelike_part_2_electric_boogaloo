@@ -1,11 +1,9 @@
-[gd_scene load_steps=17 format=4 uid="uid://difp34axv1cix"]
+[gd_scene load_steps=15 format=4 uid="uid://difp34axv1cix"]
 
 [ext_resource type="Script" path="res://scripts/battle_map.gd" id="1_6uc18"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ats3h"]
 [ext_resource type="PackedScene" uid="uid://cb5vkdeg84bs0" path="res://scenes/hextile_map/hextile_tilemap_base.tscn" id="3_e4rra"]
-[ext_resource type="Script" path="res://items/snow_lotus/item_snow_lotus_poison_immune.gd" id="3_g5tgw"]
 [ext_resource type="Script" path="res://scripts/entities/world_decor/world_decor_container.gd" id="4_1f8a0"]
-[ext_resource type="Texture2D" uid="uid://d2qtky0541cg3" path="res://items/snow_lotus/snow_lotus.png" id="4_cdi56"]
 [ext_resource type="Script" path="res://scripts/entity_manager/entity_manager.gd" id="4_ekyl0"]
 [ext_resource type="PackedScene" uid="uid://c1v2fp6vhvm61" path="res://scenes/units/entity_unit_commander.tscn" id="5_0wu57"]
 [ext_resource type="Script" path="res://scripts/state_machine/process_state_machine.gd" id="5_fku2a"]
@@ -15,23 +13,13 @@
 [ext_resource type="Script" path="res://scripts/state_machine/process_states/state_enemy_turn.gd" id="9_e00ri"]
 [ext_resource type="Script" path="res://scripts/gui/2d_scroll_camera.gd" id="11_xpr4s"]
 [ext_resource type="PackedScene" uid="uid://bsgesw60jwyg1" path="res://scenes/gui.tscn" id="12_wgvui"]
-[ext_resource type="Script" path="res://items/item_inventory.gd" id="14_i1qxt"]
+[ext_resource type="Script" path="res://scripts/items/item_inventory.gd" id="14_i1qxt"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_ats3h")
 
 [node name="item_inventory" type="Node" parent="."]
 script = ExtResource("14_i1qxt")
-
-[node name="item_snow_lotus_poison_immune" type="Node" parent="item_inventory"]
-script = ExtResource("3_g5tgw")
-
-[node name="item_sprite" type="TextureRect" parent="item_inventory/item_snow_lotus_poison_immune"]
-visible = false
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("4_cdi56")
-expand_mode = 5
 
 [node name="battle_map" type="Node" parent="."]
 script = ExtResource("1_6uc18")
