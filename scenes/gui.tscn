@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsgesw60jwyg1"]
+[gd_scene load_steps=7 format=3 uid="uid://bsgesw60jwyg1"]
 
 [ext_resource type="Script" path="res://scripts/gui/unit_hover_info_box.gd" id="1_25jvk"]
 [ext_resource type="Script" path="res://scripts/gui/end_turn_button.gd" id="1_hhkui"]
 [ext_resource type="Texture2D" uid="uid://bj4lqcgouudft" path="res://assets/items/the_kings_missive.png" id="4_nlg5q"]
 [ext_resource type="LabelSettings" uid="uid://b0rc55avuix6e" path="res://scripts/gui/text_label_settings.tres" id="4_q7lfd"]
+[ext_resource type="Script" path="res://scripts/gui/scroll_container.gd" id="5_jooqv"]
 [ext_resource type="Script" path="res://scripts/gui/log_text_box.gd" id="5_vxg2b"]
 
 [node name="gui" type="CanvasLayer"]
@@ -31,11 +32,6 @@ size_flags_vertical = 4
 text = "End turn"
 icon = ExtResource("4_nlg5q")
 script = ExtResource("1_hhkui")
-
-[node name="turn_counter" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-text = "Turn: X"
-label_settings = ExtResource("4_q7lfd")
 
 [node name="inventory_items" type="VFlowContainer" parent="HBoxContainer" groups=["gui_item_display"]]
 layout_mode = 2
@@ -71,6 +67,7 @@ grow_horizontal = 0
 [node name="ScrollContainer" type="ScrollContainer" parent="log_box"]
 layout_mode = 2
 horizontal_scroll_mode = 0
+script = ExtResource("5_jooqv")
 
 [node name="text_label" type="Label" parent="log_box/ScrollContainer" groups=["log"]]
 layout_mode = 2
