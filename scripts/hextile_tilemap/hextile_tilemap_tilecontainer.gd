@@ -1,3 +1,4 @@
+extends Node
 class_name TileContainer
 
 var map : Dictionary = {}
@@ -28,7 +29,7 @@ func get_random_empty_traversable_tile() -> Tile:
 			tile_arr.append(tile)
 	if len(tile_arr):
 		return tile_arr[random.randi_range(0, len(tile_arr)-1)]
-	print("No tiles that fit criteria")
+	get_tree().call_group("log", "logerr", "No tiles that meet empty criteria")
 	return get_random_tile()
 
 func get_tile_array() -> Array:

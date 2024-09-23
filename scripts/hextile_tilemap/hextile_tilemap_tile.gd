@@ -85,3 +85,36 @@ func _get_travel_weight() -> float:
 
 func get_travel_weight() -> float:
 	return travel_weight
+
+
+func get_adj_dir(other: Tile) -> int:
+	var a := self.tilemap_coordinates
+	var b := other.tilemap_coordinates
+	if a[0] - 1 == b[0]:
+		if int(a[0]) % 2 == 0:
+			if a[1] == b[1]:
+				return 1
+			if a[1] + 1 == b[1]:
+				return 2
+		else:
+			if a[1] - 1 == b[1]:
+				return 1
+			if a[1] == b[1]:
+				return 2
+	if a[0] == b[0]:
+		if a[1] - 1 == b[1]:
+			return 0
+		if a[1] + 1 == b[1]:
+			return 3
+	if a[0] + 1 == b[0]:
+		if int(a[0]) % 2 == 0:
+			if a[1] == b[1]:
+				return 5
+			if a[1] + 1 == b[1]:
+				return 4
+		else:
+			if a[1] - 1 == b[1]:
+				return 5
+			if a[1] == b[1]:
+				return 4
+	return -1

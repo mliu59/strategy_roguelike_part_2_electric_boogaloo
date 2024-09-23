@@ -13,8 +13,9 @@ var _attacked: bool = false
 var action_queue: Array = []
 
 signal highlight_cell(tile: Tile)
-signal highlight_path(path: TilemapPath)
+signal highlight_path(path: TilemapPath, hostile: bool)
 signal clear_highlights
+signal clear_highlight_path
 signal highlight_movable_cell(tile: Tile)
 signal action_to_tile_complete()
 
@@ -80,7 +81,20 @@ func action_to_tile(tile: Tile) -> void:
 	if not tile.is_traversable(): 			return
 	if not tile.get_uid() in viable_paths: 	return
 	move_to_tile(tile)
-		
+	highlight_path.emit(viable_paths[tile.get_uid()])
+
+func try_draw_path(tile: Tile):
+	clear_highlight_path.emit()
+	if tile == null:
+		return
+	if get_parent().is_ranged_unit():
+		if tile.get_uid() in viable_ranged_targets:
+			return # need highlight
+	if not tile.is_traversable(): 			return
+	if not tile.get_uid() in viable_paths: 	return
+	var hostile: bool = tile.is_occupied() and get_parent().is_hostile(tile.get_occupying_unit())
+	highlight_path.emit(viable_paths[tile.get_uid()], hostile)
+
 
 func move_to_tile(tile: Tile) -> void:
 	var path: TilemapPath = viable_paths[tile.get_uid()]
@@ -156,9 +170,7 @@ func find_all_paths(start: Tile,
 func find_all_ranged_targets(	start: Tile, 
 								max_range: int) -> Dictionary:
 
-	if has_attacked(): 
-		print("skipping check because attacked")
-		return {}
+	if has_attacked(): return {}
 	
 	var paths: Dictionary = {}
 	var targets: Dictionary = {}
@@ -181,5 +193,5 @@ func find_all_ranged_targets(	start: Tile,
 			if end_tile_uid not in paths:
 				paths[end_tile_uid] = _len + 1
 				queue.append([neighbor, _len + 1])
-	
+	#print(targets)
 	return targets

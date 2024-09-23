@@ -21,12 +21,10 @@ func start_state_machine():
 		current_state.enter({})
 
 func on_child_transition(state: ProcessState, new_state_name: String, data: Dictionary):
-	if not state.active:
-		print("state not active")
+	if not state.active: 
 		return 
 	var new_state = states.get(new_state_name.to_lower())
-	if !new_state:
-		print("no new state")
+	if !new_state: 
 		return
 	if current_state:
 		current_state.exit()

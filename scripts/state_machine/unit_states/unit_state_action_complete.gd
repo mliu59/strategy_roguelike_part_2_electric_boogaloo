@@ -11,9 +11,6 @@ const action_state_map = {
 
 func enter(_data: Dictionary) -> void:
 	var action_queue: Array = movement_comp.action_queue
-	#print("###########")
-	#print(action_queue)
-	#print("###########")
 	if action_queue.is_empty():
 		transitioned.emit(self, "unit_state_idle", {})
 		return

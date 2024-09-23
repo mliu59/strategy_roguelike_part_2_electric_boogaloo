@@ -4,6 +4,7 @@ var unit: EntityUnit = null
 var action_in_progress: bool = false
 
 func enter(_data: Dictionary):
+	get_tree().call_group("hextile_map", "_clear_highlights")
 	unit = _data["selected_unit"]
 	unit.show_current_paths()
 	if unit.has_movement():
@@ -35,3 +36,8 @@ func action_to_tile_complete() -> void:
 	if unit.action_in_progress:
 		unit.action_in_progress = false
 		transitioned.emit(self, "state_select_unit", {})
+
+func mouse_hover(tile: Tile):
+	if unit == null:
+		return
+	unit.try_draw_path(tile)

@@ -12,7 +12,10 @@ const _initial_units: Array = [
 ]
 
 const _initial_items: Array = [
-	"snow_lotus", "wooden_round_shield"
+	"snow_lotus", 
+	"wooden_round_shield", 
+	"black_pearl", 
+	"mysterious_elixir"
 ]
 
 func _ready() -> void:

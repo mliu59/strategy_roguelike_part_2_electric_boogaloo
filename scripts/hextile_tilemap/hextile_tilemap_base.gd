@@ -4,6 +4,7 @@ var _tiles: TileContainer
 
 signal clicked_tile(tile: Tile)
 signal clicked_non_tile()
+signal mouse_hover(tile: Tile)
 
 func set_map(tiles: TileContainer) -> void:
 	_tiles = tiles
@@ -12,6 +13,9 @@ func set_map(tiles: TileContainer) -> void:
 func clear_map() -> void:
 	clear()
 	_clear_highlights()
+
+func clear_draw_path() -> void:
+	$hextile_arrows.clear()
 
 func _clear_highlights() -> void:
 	for child in get_children():
@@ -32,11 +36,8 @@ func _highlight_tile_dimmed(tile: Tile) -> void:
 func _highlight_tile(tile: Tile) -> void:
 	$hextile_tilemap_effects.set_cell(tile.tilemap_coordinates, 0, Vector2(0, 3))
 	
-func _draw_tilemappath(path: TilemapPath) -> void:
-	$hextile_tilemap_path_effects.clear_points()
-	for tile in path.path:
-		$hextile_tilemap_path_effects.add_point(
-			$hextile_tilemap_path_effects.to_local(tile.global_position))
+func _draw_tilemappath(path: TilemapPath, hostile: bool) -> void:
+	$hextile_arrows.draw_path(path.path, hostile)
 
 func get_mouse_tile() -> Tile:
 	var vec = local_to_map(get_local_mouse_position())
@@ -72,6 +73,8 @@ func get_current_map() -> TileContainer:
 		output.add(tile)
 	return output
 
+var last_mouse_hover: Tile = null
+
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_pressed():
@@ -83,3 +86,8 @@ func _input(event):
 					clicked_tile.emit(tile)
 			elif event.button_index == MOUSE_BUTTON_RIGHT:
 				clicked_non_tile.emit()
+	elif event is InputEventMouseMotion:
+		var tile: Tile = get_mouse_tile()
+		if last_mouse_hover == null or tile != last_mouse_hover:
+			last_mouse_hover = tile
+			mouse_hover.emit(get_mouse_tile())

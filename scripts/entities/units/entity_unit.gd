@@ -17,6 +17,9 @@ func set_unit_name(_name: String) -> void:
 func get_unit_name() -> String:
 	return _unit_name
 
+func get_display_name() -> String:
+	return get_unit_name()
+
 func set_uid(id: int) -> void:
 	_unit_uid = id
 func get_uid() -> int:
@@ -43,7 +46,6 @@ func set_faction(faction_id: int) -> void:
 		remove_from_group("enemy_units")
 func is_controllable() -> bool:
 	return get_faction() == 0
-
 func _set_hostile_visuals(val: bool) -> void:
 	$component_entity_status_bars.toggle_hostile(val)
 	$unit_sprite.toggle_hostile_emblem(val)
@@ -52,11 +54,6 @@ func _init() -> void:
 	add_to_group("all_units")
 	add_to_group("all_entities")
 
-func _remove_from_all_groups() -> void:
-	remove_from_group("all_units")
-	remove_from_group("all_entities")
-	remove_from_group("enemy_units")
-	remove_from_group("player_units")
 
 func _ready() -> void:
 	set_faction(faction_enum)
@@ -77,6 +74,7 @@ func _set_current_tile(tile: Tile) -> void:
 	if current_tile != null:
 		current_tile.clear_unit()
 	current_tile = tile
+	reorder_unit_render()
 	tile.occupy_tile(self)
 	
 func show_current_paths() -> void:
@@ -92,25 +90,42 @@ func is_ranged_unit() -> bool:
 func action_to_tile(tile: Tile):
 	action_in_progress = true
 	$component_entity_movement.action_to_tile(tile)
+	
+func try_draw_path(tile: Tile) -> void:
+	$component_entity_movement.try_draw_path(tile)
 
 func apply_attack(attack: Attack):
 	var attk: Attack = $component_entity_status_effects.apply_defensive_statuses(attack)
 	$component_entity_health._on_damage(attk.damage_amount)
 	$component_entity_status_effects.apply_statuses(attk.applied_effects)
+	if not marked_for_clear:
+		$component_entity_health._on_heal(attk.heal_amount)
 
 func end_turn() -> void:
-	#print("end turn, ", _unit_uid)
-	#print($component_entity_movement.has_attacked())
 	$component_entity_movement.reset_movement()
 	$component_entity_movement.reset_attacked_counter()
 	apply_attack($component_entity_status_effects.apply_end_turn_statuses())
 	$component_entity_status_effects.decrement_turn_timers()
 
+var marked_for_clear := false
+
+func _remove_from_all_groups() -> void:
+	remove_from_group("all_units")
+	remove_from_group("all_entities")
+	remove_from_group("enemy_units")
+	remove_from_group("player_units")
+
 func _on_health_depleted() -> void:
+	marked_for_clear = true
 	_remove_from_all_groups()
-	print("unit death! %s %s" % [_unit_uid, get_unit_name()])
+	get_tree().call_group("log", "loginfo", 
+		"unit death! %s %s" % [_unit_uid, get_unit_name()])
 	current_tile.clear_unit()
 	self.queue_free()
 
 func apply_item_effect(item: Item_Base) -> void:
 	$component_entity_status_effects.apply_statuses(item.applied_statuses)
+
+func reorder_unit_render() -> void:
+	var tile_coords: Vector2 = current_tile.tilemap_coordinates
+	z_index = int(tile_coords[1]) * 2 + int(int(tile_coords[0]) % 2 == 0)

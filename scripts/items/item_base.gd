@@ -19,8 +19,15 @@ enum item_types {BATTLE, CAMPAIGN}
 
 func init(data: Dictionary) -> void:
 	_data = data
+	_check_item_descriptions()
 	_populate_status()
 	_get_item_sprite()
+
+func _check_item_descriptions() -> void:
+	for field in ['display_name', 'effect_description', 'lore_description']:
+		if field not in _data or len(_data[field]) == 0:
+			print("missing or empty %s for %s" % [field, _data['item_name']])
+			_data[field] = "PLACEHOLDER"
 
 func get_item_name() -> String:
 	return _data['item_name']
@@ -30,12 +37,12 @@ func get_item_type() -> int:
 	return _data['item_type']
 
 func _populate_status() -> void:
-	if 'status_effects' not in _data:
+	if 'status_effects' not in _data: 
 		return
 	for status_str in _data['status_effects']:
 		var script_path = "res://status_effects/" + status_str + ".gd"
 		if not FileAccess.file_exists(script_path):
-			print("%s does not exist" % script_path)
+			get_tree().call_group("log", "logerr", "Error reading script at %s" % script_path)
 			continue
 		var instance: StatusEffect = load(script_path).new()
 		applied_statuses.append(instance)
@@ -43,6 +50,6 @@ func _populate_status() -> void:
 func _get_item_sprite() -> void:
 	var sprite_path = "res://assets/items/" + _data['sprite_file']
 	if not FileAccess.file_exists(sprite_path):
-		print("%s does not exist" % sprite_path)
+		get_tree().call_group("log", "logerr", "Error reading resource at %s" % sprite_path)
 		return
 	$item_sprite.texture = ImageTexture.create_from_image(Image.load_from_file(sprite_path))

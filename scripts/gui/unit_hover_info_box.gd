@@ -1,4 +1,4 @@
-extends ColorRect
+extends PanelContainer
 
 #TODO move this into a component
 
@@ -12,7 +12,6 @@ func toggle_display(val: bool) -> void:
 	self.visible = val
 
 func _show_unit_hover_info_box(text: String) -> void:
-	#get_parent().set_global_position(get_global_mouse_position())
 	update_text(text)
 	toggle_display(true)
 	

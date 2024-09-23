@@ -5,6 +5,10 @@ func _component_ready() -> void:
 	#_c_map["movement"].connect("highlight_cell", _on_highlight_tile)
 	_c_map["movement"].connect("highlight_movable_cell", _on_highlight_moveable_tile)
 	_c_map["movement"].connect("highlight_path", _on_draw_tilemap)
+	_c_map["movement"].connect("clear_highlight_path", _on_clear_draw_path)
+
+func _on_clear_draw_path():
+	get_tree().call_group("hextile_map", "clear_draw_path")
 	
 func _on_clear_highlights():
 	get_tree().call_group("hextile_map", "_clear_highlights")
@@ -15,8 +19,8 @@ func _on_highlight_moveable_tile(tile: Tile):
 func _on_highlight_tile(tile: Tile):
 	get_tree().call_group("hextile_map", "_highlight_tile", tile)
 
-func _on_draw_tilemap(path: TilemapPath):
-	get_tree().call_group("hextile_map", "_draw_tilemappath", path)
+func _on_draw_tilemap(path: TilemapPath, hostile: bool):
+	get_tree().call_group("hextile_map", "_draw_tilemappath", path, hostile)
 
 func _on_open_unit_tooltip():
 	var output := "{unit_name} {unit_uid}\n"

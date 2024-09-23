@@ -64,3 +64,4 @@ script = ExtResource("11_xpr4s")
 
 [connection signal="clicked_non_tile" from="battle_map/hextile_tilemap_base" to="battle_map/process_state_machine" method="_on_clicked_non_tile"]
 [connection signal="clicked_tile" from="battle_map/hextile_tilemap_base" to="battle_map/process_state_machine" method="_on_clicked_tile"]
+[connection signal="mouse_hover" from="battle_map/hextile_tilemap_base" to="battle_map/process_state_machine" method="_on_mouse_hover"]

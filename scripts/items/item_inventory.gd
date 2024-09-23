@@ -17,15 +17,14 @@ func _json_read(filename: String) -> Dictionary:
 	var file = FileAccess.open(filename, FileAccess.READ)
 	var json_object = JSON.new()
 	if json_object.parse(file.get_as_text()) != OK:
-		print("Error reading JSON")
+		get_tree().call_group("log", "logerr", "Error reading JSON at %s" % filename)
 		return output
 	output["data"] = json_object.get_data()
 	return output
 
 func add_item(item_name: String) -> void:
-	#print("adding item %s" % item_name)
 	if item_name not in _all_items:
-		print("NO ITEM FOUND")
+		get_tree().call_group("log", "logerr", "No item with name " % item_name)
 		return
 	
 	var item_instance: Item_Base = load("res://scenes/items/generic_item.tscn").instantiate()
