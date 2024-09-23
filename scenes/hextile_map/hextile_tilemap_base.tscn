@@ -35,6 +35,11 @@ modulate = Color(0.314316, 0.314316, 0.314316, 0.784314)
 tile_map_data = PackedByteArray("AAACAAIAAAAAAAMAAAACAAEAAAAAAAMAAAABAAIAAAAAAAMAAAABAAEAAAAAAAMAAAA=")
 tile_set = ExtResource("1_ppcla")
 
+[node name="hextile_tilemap_target_effect" type="TileMapLayer" parent="."]
+modulate = Color(0, 1, 0, 1)
+tile_map_data = PackedByteArray("AAAGAAYAAAAAAAIAAAAHAAcAAAAAAAIAAAAHAAYAAAAAAAIAAAAIAAcAAAAAAAIAAAA=")
+tile_set = ExtResource("1_ppcla")
+
 [node name="hextile_arrows" type="TileMapLayer" parent="."]
 modulate = Color(1, 0, 0, 0.788235)
 position = Vector2(-1, 0)

@@ -35,9 +35,13 @@ func action_to_tile_complete() -> void:
 		return
 	if unit.action_in_progress:
 		unit.action_in_progress = false
+		if  get_tree().get_nodes_in_group("enemy_units").is_empty() or \
+			get_tree().get_nodes_in_group("player_units").is_empty():
+			transitioned.emit(self, "state_battle_end", {})
+			return
 		transitioned.emit(self, "state_select_unit", {})
 
 func mouse_hover(tile: Tile):
-	if unit == null:
+	if unit == null or unit.action_in_progress:
 		return
 	unit.try_draw_path(tile)

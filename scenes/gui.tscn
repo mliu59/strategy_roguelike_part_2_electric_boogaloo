@@ -32,6 +32,11 @@ text = "End turn"
 icon = ExtResource("4_nlg5q")
 script = ExtResource("1_hhkui")
 
+[node name="turn_counter" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Turn: X"
+label_settings = ExtResource("4_q7lfd")
+
 [node name="inventory_items" type="VFlowContainer" parent="HBoxContainer" groups=["gui_item_display"]]
 layout_mode = 2
 size_flags_horizontal = 10

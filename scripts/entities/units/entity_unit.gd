@@ -107,6 +107,9 @@ func end_turn() -> void:
 	apply_attack($component_entity_status_effects.apply_end_turn_statuses())
 	$component_entity_status_effects.decrement_turn_timers()
 
+func end_battle() -> void:
+	toggle_status_bars(false)
+
 var marked_for_clear := false
 
 func _remove_from_all_groups() -> void:
@@ -129,3 +132,25 @@ func apply_item_effect(item: Item_Base) -> void:
 func reorder_unit_render() -> void:
 	var tile_coords: Vector2 = current_tile.tilemap_coordinates
 	z_index = int(tile_coords[1]) * 2 + int(int(tile_coords[0]) % 2 == 0)
+
+var deployed := true
+
+func toggle_status_bars(val: bool) -> void:
+	$component_entity_status_bars.visible = val
+
+func queue_for_deployment() -> void:
+	deployed = false
+	visible = false
+	$unit_sprite/unit_area/unit_collision_shape.disabled = true
+	toggle_status_bars(false)
+	
+func update_deployment_preview(tile: Tile) -> void:
+	visible = true
+	global_position = tile.global_position
+	
+func deploy_at_tile(tile: Tile) -> void:
+	set_starting_tile(tile)
+	deployed = true
+	visible = true
+	$unit_sprite/unit_area/unit_collision_shape.disabled = false
+	toggle_status_bars(true)

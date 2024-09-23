@@ -81,7 +81,8 @@ func action_to_tile(tile: Tile) -> void:
 	if not tile.is_traversable(): 			return
 	if not tile.get_uid() in viable_paths: 	return
 	move_to_tile(tile)
-	highlight_path.emit(viable_paths[tile.get_uid()])
+	var hostile: bool = tile.is_occupied() and get_parent().is_hostile(tile.get_occupying_unit())
+	highlight_path.emit(viable_paths[tile.get_uid()], hostile)
 
 func try_draw_path(tile: Tile):
 	clear_highlight_path.emit()
@@ -89,10 +90,13 @@ func try_draw_path(tile: Tile):
 		return
 	if get_parent().is_ranged_unit():
 		if tile.get_uid() in viable_ranged_targets:
+			get_tree().call_group("hextile_map", "_highlight_attack_target", tile)
 			return # need highlight
 	if not tile.is_traversable(): 			return
 	if not tile.get_uid() in viable_paths: 	return
 	var hostile: bool = tile.is_occupied() and get_parent().is_hostile(tile.get_occupying_unit())
+	if hostile:
+		get_tree().call_group("hextile_map", "_highlight_attack_target", tile)
 	highlight_path.emit(viable_paths[tile.get_uid()], hostile)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://difp34axv1cix"]
+[gd_scene load_steps=17 format=4 uid="uid://difp34axv1cix"]
 
 [ext_resource type="Script" path="res://scripts/battle_map.gd" id="1_6uc18"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ats3h"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://scripts/state_machine/process_states/state_enemy_turn.gd" id="9_e00ri"]
 [ext_resource type="Script" path="res://scripts/gui/2d_scroll_camera.gd" id="11_xpr4s"]
 [ext_resource type="PackedScene" uid="uid://bsgesw60jwyg1" path="res://scenes/gui.tscn" id="12_wgvui"]
+[ext_resource type="Script" path="res://scripts/state_machine/process_states/state_deploy_units.gd" id="13_v2oew"]
+[ext_resource type="Script" path="res://scripts/state_machine/process_states/state_battle_end.gd" id="14_7eplm"]
 [ext_resource type="Script" path="res://scripts/items/item_inventory.gd" id="14_i1qxt"]
 
 [node name="main" type="Node"]
@@ -40,7 +42,7 @@ position = Vector2(461, 235)
 
 [node name="process_state_machine" type="Node" parent="battle_map" node_paths=PackedStringArray("initial_state") groups=["global_turn_based_state_machine"]]
 script = ExtResource("5_fku2a")
-initial_state = NodePath("state_select_unit")
+initial_state = NodePath("state_deploy_units")
 
 [node name="state_select_unit" type="Node" parent="battle_map/process_state_machine"]
 script = ExtResource("6_xkp5g")
@@ -53,6 +55,12 @@ script = ExtResource("9_e00ri")
 
 [node name="state_end_turn" type="Node" parent="battle_map/process_state_machine"]
 script = ExtResource("8_tfeeo")
+
+[node name="state_deploy_units" type="Node" parent="battle_map/process_state_machine"]
+script = ExtResource("13_v2oew")
+
+[node name="state_battle_end" type="Node" parent="battle_map/process_state_machine"]
+script = ExtResource("14_7eplm")
 
 [node name="gui" parent="." instance=ExtResource("12_wgvui")]
 layer = 1

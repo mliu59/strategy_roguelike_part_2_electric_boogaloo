@@ -23,9 +23,7 @@ func draw_path(path: Array, hostile: bool) -> void:
 				print("Path not continuous")
 				return
 		dir_map.append([cur.tilemap_coordinates, dir_arrow])
-	
 	modulate = default_color if not hostile else hostile_color
-	
 	for arr in dir_map:
 		set_cell(arr[0], 10, _convert_to_tileset(arr[1]))
 

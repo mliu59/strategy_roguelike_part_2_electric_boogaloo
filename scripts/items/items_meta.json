@@ -8,7 +8,8 @@
 		"status_effects": [
 			"StatusEffect_PoisonImmune"
 		],
-		"sprite_file": "snow_lotus.png"
+		"sprite_file": "snow_lotus.png",
+		"item_rarity": "COMMON"
 	},
 	{
 		"item_name": "wooden_round_shield",
@@ -19,7 +20,8 @@
 		"status_effects": [
 			"StatusEffect_Defense"
 		],
-		"sprite_file": "wooden_round_shield.png"
+		"sprite_file": "wooden_round_shield.png",
+		"item_rarity": "COMMON"
 	},
 	{
 		"item_name": "black_pearl",
@@ -27,7 +29,8 @@
 		"display_name": "BLACK PEARL",
 		"effect_description": "",
 		"lore_description": "A mysterious black pearl that seems to absorb all light around it.",
-		"sprite_file": "black_pearl.png"
+		"sprite_file": "black_pearl.png",
+		"item_rarity": "COMMON"
 	},
 	{
 		"item_name": "mysterious_elixir",
@@ -38,6 +41,7 @@
 		"status_effects": [
 			"StatusEffect_Heal"
 		],
-		"sprite_file": "mysterious_elixir.png"
+		"sprite_file": "mysterious_elixir.png",
+		"item_rarity": "COMMON"
 	}
 ]

@@ -25,6 +25,9 @@ func _ready() -> void:
 	$world_decor.set_map(tiles)
 	
 	for unit in _initial_units:
+		if unit[1] == 0:
+			$entity_manager.queue_for_deployment(unit[0], unit[1])
+			continue
 		var tile = unit[2]
 		if tile == null:
 			tile = tiles.get_random_empty_traversable_tile()
